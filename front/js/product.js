@@ -27,17 +27,23 @@ fetch(productUrl)
     //description
     const productDescription =document.querySelector("#description")
     productDescription.innerHTML = data.description;
-    
-    //
+
+    //colors selection
     const selectColor = document.getElementById('colors')
     let colors = data.colors
-    //looping on arrays of color to insert them in the option "form"
+
+    //looping through the array of color of each products to insert them in the option's "form"
     colors.forEach(item => {
         const option = document.createElement("option")
         option.value =item
         option.innerText=item
         selectColor.appendChild(option)
     });
+    //add alert for the choices
+
+    let SelectQuantity = document.getElementById('quantity')
+
+
   
         
 })
