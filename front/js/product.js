@@ -1,5 +1,5 @@
 //extracting the id of the product from the end of the url's page
-const queryString_url= window.location.search;
+const queryString_url= window.location.search
 // easy method to separate the id from the string
 const id =queryString_url.slice(4)
 
@@ -29,23 +29,24 @@ fetch(productUrl)
     productDescription.innerHTML = data.description;
 
     //colors selection
-    const selectColor = document.getElementById('colors')
-    let colors = data.colors
+    let colorSelection = document.querySelector("#colors");
+    let colorChoice = data.colors
+    colorChoice.forEach(color => {
+        const option = document.createElement('option')
+        option.value = color
+        option.text = color
+        colorSelection.appendChild(option)
+      
 
-    //looping through the array of color of each products to insert them in the option's "form"
-    colors.forEach(item => {
-        const option = document.createElement("option")
-        option.value =item
-        option.innerText=item
-        selectColor.appendChild(option)
     });
-    //add alert for the choices
 
-    let SelectQuantity = document.getElementById('quantity')
+    //initializing the Addto cart button
+    const addButton = document.querySelector('#addToCart');
+    addButton.addEventListener('click', ()=>{})
 
+    
+    
 
-  
-        
 })
 
 
