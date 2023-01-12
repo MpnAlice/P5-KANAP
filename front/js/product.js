@@ -9,6 +9,9 @@ fetch(productUrl)
 .then(response => response.json())
 .then((data) =>{
 
+
+    
+
     // image
     const imgParent = document.querySelector('.item__img')
     const img = document.createElement('img')
@@ -28,25 +31,23 @@ fetch(productUrl)
     const productDescription =document.querySelector("#description")
     productDescription.innerHTML = data.description;
 
-    //colors selection
-    let colorSelection = document.querySelector("#colors");
-    let colorChoice = data.colors
-    colorChoice.forEach(color => {
-        const option = document.createElement('option')
-        option.value = color
-        option.text = color
-        colorSelection.appendChild(option)
-      
-
-    });
-
-    //initializing the Addto cart button
-    const addButton = document.querySelector('#addToCart');
-    addButton.addEventListener('click', ()=>{})
-
+    //colors
     
-    
+    function SelectColors(colors){
+        const select = document.querySelector('#colors')
+       
+        if(select != null){
+         const colors = data.colors
+         colors.forEach((color) => {
+         const option = document.createElement("option")
+         option.value = color
+         option.textContent = color
+         select.appendChild(option)
+            
+         });
+        }
+    }
+    SelectColors()
 
 })
-
 
