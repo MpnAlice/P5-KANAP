@@ -1,17 +1,16 @@
+document.addEventListener('DOMContentLoaded', (event) =>{
+
 //extracting the id of the product from the end of the url's page
-const queryString_url= window.location.search
+const queryString_url = window.location.search
 // easy method to separate the id from the string
-const id =queryString_url.slice(4)
+const id = queryString_url.slice(4)
 
 //fetching the product's info from the new url 
-let productUrl = (`http://localhost:3000/api/products/${id}`)
+let productUrl = (`http://localhost:3000/api/products/${id}`);
 fetch(productUrl)
 .then(response => response.json())
-.then((data) =>{
-
-
+.then((data) => {
     
-
     // image
     const imgParent = document.querySelector('.item__img')
     const img = document.createElement('img')
@@ -41,7 +40,7 @@ fetch(productUrl)
          colors.forEach((color) => {
          const option = document.createElement("option")
          option.value = color
-         option.textContent = color
+         option.innerHTML= color
          select.appendChild(option)
             
          });
@@ -49,5 +48,25 @@ fetch(productUrl)
     }
     SelectColors()
 
-})
 
+   let AddtoCartBtn = document.querySelector('#addToCart')
+   const ChoosenColor =document.querySelector('#colors')
+   let color = ChoosenColor.Value
+
+   console.log(color)
+
+});
+
+});
+
+    
+
+
+
+
+
+
+
+
+
+     
