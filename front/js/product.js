@@ -14,7 +14,7 @@ async function getData() {
     const ProductImage = document.createElement('img');
     ProductImage.src = product.imageUrl;
     ProductImage.alt = product.altTxt;
-    const imgParent =document.querySelector('.item__img');
+    const imgParent = document.querySelector('.item__img');
     imgParent.appendChild(ProductImage);
 
     //adding Name
@@ -36,21 +36,21 @@ async function getData() {
     //looping through color array to:
     colorsPalette.forEach(color => {
         //create "option" tag in the DOM
-     const colorOption = document.createElement("option");
-     colorSelection.appendChild(colorOption);
-       // setting element(s) of the array as value
-     colorOption.value = color
-      // setting element(s) of the array as html element
-     colorOption.innerHTML= color
+        const colorOption = document.createElement("option");
+        colorSelection.appendChild(colorOption);
+        // setting element(s) of the array as value
+        colorOption.value = color
+        // setting element(s) of the array as html element
+        colorOption.innerHTML = color
     });
 
-    
+
     //initializing the button
-    const addButton =document.querySelector("#addToCart");
-    addButton.addEventListener('click' ,(event) =>{
+    const addButton = document.querySelector("#addToCart");
+    addButton.addEventListener('click', (event) => {
         event.preventDefault();
         //
-        const colorCall =document.querySelector("#colors");
+        const colorCall = document.querySelector("#colors");
         //assigning the value of the id 'colors' to color choice
         const colorChoice = colorCall.value;
 
@@ -59,16 +59,23 @@ async function getData() {
         const quantityChoice = quantity.value
 
         //product object
-        let product  ={
-          "id":id,
-          "color":colorChoice,
-          "quantity":quantityChoice
+        let product = {
+            "id": id,
+            "color": colorChoice,
+            "quantity": quantityChoice
         }
-    
+
+        //local storage
+        //getting the item
+        let basket = JSON.parse(localStorage.getItem('basket')) || [];
+        console.log(basket)
+        basket.push(product)
+
+        //setting the item
+        window.localStorage.setItem('basket', JSON.stringify(basket))
+
     })
-    
-   
-    
+
 }
 //calling the function
 getData();
