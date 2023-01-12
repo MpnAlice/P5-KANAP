@@ -66,6 +66,7 @@ async function getData() {
         }
 
         //local storage
+
         //getting the item
         let basket = JSON.parse(localStorage.getItem('basket')) || [];
         console.log(basket)
@@ -73,6 +74,9 @@ async function getData() {
 
         //setting the item
         window.localStorage.setItem('basket', JSON.stringify(basket))
+
+        //redirection to the cart page
+        window.location.href ="./cart.html"
 
     })
 
