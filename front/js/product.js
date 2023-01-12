@@ -1,5 +1,3 @@
-document.addEventListener('DOMContentLoaded', (event) =>{
-
 //extracting the id of the product from the end of the url's page
 const queryString_url = window.location.search
 // easy method to separate the id from the string
@@ -7,59 +5,73 @@ const id = queryString_url.slice(4)
 
 //fetching the product's info from the new url 
 let productUrl = (`http://localhost:3000/api/products/${id}`);
-fetch(productUrl)
-.then(response => response.json())
-.then((data) => {
-    
-    // image
-    const imgParent = document.querySelector('.item__img')
-    const img = document.createElement('img')
-    img.alt = data.altTxt
-    img.src = data.imageUrl;
-    imgParent.appendChild(img)
+async function getData() {
+    const response = await fetch(productUrl)
+    const product = await response.json();
+    console.log(product)
 
-    //name
-    const productName =document.querySelector("#title")
-    productName.innerHTML = data.name;
-    
-    //price
-    const productPrice =document.querySelector("#price")
-    productPrice.innerHTML = data.price;
-      
-    //description
-    const productDescription =document.querySelector("#description")
-    productDescription.innerHTML = data.description;
+    //making image
+    const ProductImage = document.createElement('img');
+    ProductImage.src = product.imageUrl;
+    ProductImage.alt = product.altTxt;
+    const imgParent =document.querySelector('.item__img');
+    imgParent.appendChild(ProductImage);
+
+    //adding Name
+    const productName = document.querySelector('#title');
+    productName.innerText = product.name;
+
+    //adding Price
+    const productPrice = document.querySelector('#price');
+    productPrice.innerText = product.price;
+
+    //adding Description
+    const productDescription = document.querySelector('#description');
+    productDescription.innerText = product.description;
 
     //colors
+    const colorSelection = document.querySelector('#colors');
+    let colorsPalette = product.colors;
+
+    //looping through color array to:
+    colorsPalette.forEach(color => {
+        //create "option" tag in the DOM
+     const colorOption = document.createElement("option");
+     colorSelection.appendChild(colorOption);
+       // setting element(s) of the array as value
+     colorOption.value = color
+      // setting element(s) of the array as html element
+     colorOption.innerHTML= color
+    });
+
     
-    function SelectColors(colors){
-        const select = document.querySelector('#colors')
-       
-        if(select != null){
-         const colors = data.colors
-         colors.forEach((color) => {
-         const option = document.createElement("option")
-         option.value = color
-         option.innerHTML= color
-         select.appendChild(option)
-            
-         });
+    //initializing the button
+    const addButton =document.querySelector("#addToCart");
+    addButton.addEventListener('click' ,(event) =>{
+        event.preventDefault();
+        //
+        const colorCall =document.querySelector("#colors");
+        //assigning the value of the id 'colors' to color choice
+        const colorChoice = colorCall.value;
+
+        //quantity from api
+        const quantity = document.querySelector("#quantity");
+        const quantityChoice = quantity.value
+
+        //product object
+        let product  ={
+          "id":id,
+          "color":colorChoice,
+          "quantity":quantityChoice
         }
-    }
-    SelectColors()
-
-
-   let AddtoCartBtn = document.querySelector('#addToCart')
-   const ChoosenColor =document.querySelector('#colors')
-   let color = ChoosenColor.Value
-
-   console.log(color)
-
-});
-
-});
-
     
+    })
+    
+   
+    
+}
+//calling the function
+getData();
 
 
 
@@ -68,5 +80,3 @@ fetch(productUrl)
 
 
 
-
-     
