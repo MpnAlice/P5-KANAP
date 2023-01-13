@@ -8,7 +8,6 @@ let productUrl = (`http://localhost:3000/api/products/${id}`);
 async function getData() {
     const response = await fetch(productUrl)
     const product = await response.json();
-    console.log(product)
 
     //making image
     const ProductImage = document.createElement('img');
@@ -58,13 +57,13 @@ async function getData() {
         const quantity = document.querySelector("#quantity");
         const quantityChoice = quantity.value
 
-        //product object
-        let product = {
-            "id": id,
-            "color": colorChoice,
-            "quantity": quantityChoice
-        }
+        let product ={
+            "productId": id,
+            "quantity":Number(quantityChoice),
+            "color": colorChoice
 
+        }
+        
         //local storage
 
         //getting the item
@@ -74,7 +73,7 @@ async function getData() {
 
         //setting the item
         window.localStorage.setItem('basket', JSON.stringify(basket))
-
+       
         //redirection to the cart page
         window.location.href ="./cart.html"
 
