@@ -1,67 +1,79 @@
 import { apiUrl } from "./utils.js";
-//fetching data from the api's url with a simplified async function
-async function getData() {
-    const response = await fetch(apiUrl)
-    const data = await response.json();
 
-    var basket = []
-    console.log(basket)
+//
+const cart = document.querySelector('#cart__items')
 
-    var item ={
-        product: data.name,
-        price : data.price,
-        color : data.color
-    }
+//
+const article = document.createElement('article');
+article.setAttribute("class","cart__item");
+cart.appendChild(article)
 
-   //product
-    const article = document.createElement('article');
-    article.classList.add("cart__item");
-    const cart__items = document.querySelector("#cart__items");
-    cart__items.appendChild(article);
+//
+const imgContainer = document.createElement('div');
+imgContainer.setAttribute("class","cart__item__img" )
+article.appendChild(imgContainer)
+//
+const productImg = document.createElement('img');
+imgContainer.appendChild(productImg);
+productImg.src =''
+productImg.alt =''
 
-    //image
-    let imageDiv = document.createElement('div');
-    imageDiv.classList.add("cart__item__img")
-    article.appendChild(imageDiv);
+const productContent= document.createElement('div');
+productContent.setAttribute("class","cart__item__content");
+article.appendChild(productContent)
+//
+const description= document.createElement('div');
+description.setAttribute("class","cart__item__content__description");
+productContent.appendChild(description);
+description.innerHTML =`
+    <h2>Nom du produit</h2>
+    <p>Vert</p>
+    <p>42,00 €</p>
+`
+//setttings
+const settings= document.createElement('div');
+settings.setAttribute("class","cart__item__content__settings");
+productContent.appendChild(settings);
+//
+const quantitySettings = document.createElement('div');
+quantitySettings.setAttribute("class","cart__item__content__settings__quantity");
+settings.appendChild(quantitySettings)
 
-    let img = document.createElement('img')
-    imageDiv.appendChild(img);
-    img.src = data.imageUrl;
-    img.alt =data.altText;
+//
+const p = document.createElement('p');
+p.innerText = "Qté : "
+quantitySettings.appendChild(p)
 
-    //content
-    const contentDiv = document.createElement('div');
-    contentDiv.classList.add("cart__item__content");
-    cart__items.appendChild(contentDiv);
+//add item//reduce item//
+const quantityInput = document.createElement('input');
+quantityInput.setAttribute("class","itemQuantity");
+quantityInput.setAttribute("type","number");
+quantityInput.setAttribute("name","itemQuantity");
+quantityInput.setAttribute("min","1");
+quantityInput.setAttribute("max","100");
+quantityInput.setAttribute("value","");
 
-    //
-    const description = document.createElement('div');
-    description.classList.add("cart__item__content__description");
-    contentDiv.appendChild(description)
-    description.innerHTML = `<h2>Nom du produit</h2><p>Vert</p> <p>42,00 €</p>`
-   
+quantitySettings.appendChild(quantityInput);
 
-    const settings = document.createElement('div');
-    settings.classList.add("cart__item__content__settings");
-    contentDiv.appendChild(settings)
+//delete
+const deleteSettings = document.createElement('div');
+deleteSettings.setAttribute("class","cart__item__content__settings__delete");
+settings.appendChild(deleteSettings);
 
-    const quantity = document.createElement('div');
-    quantity.classList.add("cart__item__content__settings__quantity");
-    contentDiv.appendChild(quantity)
-  
+//
+const deletebtn = document.createElement('p');
+deletebtn.setAttribute("class","deleteItem" );
+deletebtn.innerHTML =`Supprimer `;
+deleteSettings.appendChild(deletebtn);
 
 
-    const deletebtn =document.createElement('div')
-    deletebtn.classList.add("cart__item__content__settings__delete")
-    settings.appendChild(deletebtn)
-    deletebtn.innerHTML =`<p class="deleteItem">Supprimer</p>`
-    
-    let input = document.createElement("input")
-    settings.appendChild(input)
-    input.classList.add("itemQuantity")
-    
-  
 
-}
-//calling the function
-getData();
+
+
+
+
+
+
+
+
+
