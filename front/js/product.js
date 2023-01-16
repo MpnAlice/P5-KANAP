@@ -25,6 +25,8 @@ async function getData() {
     //adding Price
     const productPrice = document.querySelector('#price');
     productPrice.innerText = product.price;
+    const price = product.price
+
 
     //adding Description
     const productDescription = document.querySelector('#description');
@@ -58,6 +60,7 @@ async function getData() {
         //quantity from api
         const quantity = document.querySelector("#quantity");
         const quantityChoice = quantity.value
+       
 
         //creating an array of product
         let productArray ={
@@ -65,7 +68,8 @@ async function getData() {
             "quantity":Number(quantityChoice),
             "color": colorChoice,
             "url":url,
-            "name": name
+            "name": name,
+            "price":price
         }
         
         //handling local storage//
