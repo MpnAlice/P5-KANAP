@@ -77,7 +77,7 @@ async function getData() {
         }
        
 
-        //getting th item with the key "basket"
+        //getting the item with the key "basket"
         function getBasket(){
             let basket = localStorage.getItem("basket")
             //if the basket is empty
@@ -88,7 +88,7 @@ async function getData() {
             }
              
         }
-   
+
         //adding the productArray to the "basket"
         function addtoBasket(productArray){
             // calling the parsed response of the basket as basket
