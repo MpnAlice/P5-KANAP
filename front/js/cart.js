@@ -1,7 +1,19 @@
 //getting the pushed items from the localstorage
-let basket = localStorage.getItem("basket");
+let basket = JSON.parse(localStorage.getItem("basket"));
 console.log(basket)
 
+
+
+for(let i = 0; i < basket.length; i++){
+
+    const basketId = basket[i].id
+    const  basketImg = basket[i].url;
+    const  basketName = basket[i].name;
+    const  basketQuantity = basket[i].quantity;
+    const basketColor = basket[i].color
+    const basketPrice = basket[i].price
+
+    
  //selecting the html element in which products will nest
  const cart = document.querySelector('#cart__items')
     
@@ -10,7 +22,11 @@ console.log(basket)
  //article
  const article = document.createElement('article');
  article.setAttribute("class", "cart__item");
+ article.dataset.id =`${basketId}`
+ article.dataset.color =`${basketColor}`
+ article.setAttribute("data-color", ` ${basketColor}`);
  cart.appendChild(article)
+ console.log(article)
 
  // img
  const imgContainer = document.createElement('div');
@@ -19,6 +35,8 @@ console.log(basket)
  //
  const productImg = document.createElement('img');
  imgContainer.appendChild(productImg);
+ productImg.src = basketImg
+
  
  //content
  const productContent = document.createElement('div');
@@ -29,9 +47,9 @@ console.log(basket)
  description.setAttribute("class", "cart__item__content__description");
  productContent.appendChild(description);
  description.innerHTML = `
- <h2>Nom du produit</h2>
- <p>Vert</p>
- <p>42,00 €</p>
+ <h2>${basketName}</h2>
+ <p>${basketColor}</p>
+ <p>${basketPrice} €</p>
  `
  //settings
  const settings = document.createElement('div');
@@ -55,7 +73,7 @@ console.log(basket)
  quantityInput.setAttribute("name", "itemQuantity");
  quantityInput.setAttribute("min", "1");
  quantityInput.setAttribute("max", "100");
- quantityInput.setAttribute("value", "");
+ quantityInput.setAttribute("value", `${basketQuantity}`);
 
  quantitySettings.appendChild(quantityInput);
 
@@ -68,3 +86,7 @@ console.log(basket)
  deletebtn.setAttribute("class", "deleteItem");
  deletebtn.innerHTML = `Supprimer `;
  deleteSettings.appendChild(deletebtn);
+
+}
+
+
