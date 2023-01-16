@@ -13,12 +13,14 @@ async function getData() {
     const ProductImage = document.createElement('img');
     ProductImage.src = product.imageUrl;
     ProductImage.alt = product.altTxt;
+    const url = product.imageUrl
     const imgParent = document.querySelector('.item__img');
     imgParent.appendChild(ProductImage);
 
     //adding Name
     const productName = document.querySelector('#title');
     productName.innerText = product.name;
+    const name = product.name;
 
     //adding Price
     const productPrice = document.querySelector('#price');
@@ -43,11 +45,11 @@ async function getData() {
         colorOption.innerHTML = color
     });
 
-
     //initializing the button
     const addButton = document.querySelector("#addToCart");
     addButton.addEventListener('click', (event) => {
         event.preventDefault();
+
         //
         const colorCall = document.querySelector("#colors");
         //assigning the value of the id 'colors' to color choice
@@ -57,25 +59,62 @@ async function getData() {
         const quantity = document.querySelector("#quantity");
         const quantityChoice = quantity.value
 
-        let product ={
-            "productId": id,
+        //creating an array of product
+        let productArray ={
+            "id": id,
             "quantity":Number(quantityChoice),
-            "color": colorChoice
-
+            "color": colorChoice,
+            "url":url,
+            "name": name
         }
         
-        //local storage
-
-        //getting the item
-        let basket = JSON.parse(localStorage.getItem('basket')) || [];
-        console.log(basket)
-        basket.push(product)
-
-        //setting the item
-        window.localStorage.setItem('basket', JSON.stringify(basket))
+        //handling local storage//
+        let basket =[];
+      
+        //saving the basket in the local storage
+        function saveBasket(basket){
+            localStorage.setItem("basket", JSON.stringify(basket));
+        }
        
-        //redirection to the cart page
-        window.location.href ="./cart.html"
+
+        //getting th item with the key "basket"
+        function getBasket(){
+            let basket = localStorage.getItem("basket")
+            //if the basket is empty
+            if (basket == null) {
+                return[] 
+            } else {
+                return JSON.parse(localStorage.getItem("basket"));
+            }
+             
+        }
+   
+        //adding the productArray to the "basket"
+        function addtoBasket(productArray){
+            // calling the parsed response of the basket as basket
+            let basket = getBasket();
+            //finding the product in basket by id
+            let productInBasket = basket.find((p) =>{ return p.id == productArray.id  &&  p.color == productArray.color})
+            //if the product in basket is different from undefined,color and id are the same
+            if (productInBasket != undefined) {
+                // 
+                productInBasket.quantity++;
+              
+            } else {
+                //default quantity
+                productArray.quantity = 1;
+                //pushing the product array in the basket
+                basket.push(productArray);
+            }
+          
+            //new basket registration
+            saveBasket(basket)
+        }
+        addtoBasket(productArray);
+     
+
+        //redirecting to the cart's page
+        window.location.href='./cart.html'
 
     })
 
