@@ -25,8 +25,7 @@ async function getData() {
     //adding Price
     const productPrice = document.querySelector('#price');
     productPrice.innerText = product.price;
-    const price = product.price
-
+   
 
     //adding Description
     const productDescription = document.querySelector('#description');
@@ -69,7 +68,7 @@ async function getData() {
             "color": colorChoice,
             "url":url,
             "name": name,
-            "price":price
+            //"price":price
         }
         
         //handling local storage//
@@ -106,7 +105,7 @@ async function getData() {
               
             } else {
                 //default quantity
-                productArray.quantity = 1;
+                productArray.quantity = quantity.value;
                 //pushing the product array in the basket
                 basket.push(productArray);
             }
