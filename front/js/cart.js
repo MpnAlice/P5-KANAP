@@ -15,10 +15,11 @@ async function getData() {
       //finding elements who have the same id as tle local elements and retrieveing those data
       const basketElements = data.find((element) => element._id === basketId);
       let basketprice = basketElements.price;
-
-       
+      
      //selecting the html element in which products will nest
      const cart = document.querySelector('#cart__items')
+
+   
         
      //adding elements in the DOM with "document.createElement()", ".appendChild", "innerHTML" and ".setAttributes" :
     
@@ -29,7 +30,7 @@ async function getData() {
      article.dataset.color =`${basketColor}`
      article.setAttribute("data-color", ` ${basketColor}`);
      cart.appendChild(article)
-    
+
     
      // img
      const imgContainer = document.createElement('div');
@@ -79,6 +80,8 @@ async function getData() {
      quantityInput.setAttribute("value", `${basketQuantity}`);
     
      quantitySettings.appendChild(quantityInput);
+
+    
     
      //delete button
      const deleteSettings = document.createElement('div');
@@ -89,8 +92,21 @@ async function getData() {
      deletebtn.setAttribute("class", "deleteItem");
      deletebtn.innerHTML = `Supprimer `;
      deleteSettings.appendChild(deletebtn);
+
+     //total quantity
+   
+     const totalBasketQuantity = 0
+     document.querySelector('#totalQuantity').innerText = '3'
+
     
+     //total price
+     const totalBasketPrice = 0
+     document.querySelector('#totalPrice').innerText ='50'
     }
+
+   
+
+    
     
     
     
