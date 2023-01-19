@@ -46,25 +46,28 @@ async function getData() {
         colorOption.innerHTML = color
     });
 
+
     //initializing the button
     const addButton = document.querySelector("#addToCart");
     addButton.addEventListener('click', (event) => {
         event.preventDefault();
 
+
+
+
         //
         const colorCall = document.querySelector("#colors");
         //assigning the value of the id 'colors' to color choice
         const colorChoice = colorCall.value;
-
-        //quantity from api
-        const quantity = document.querySelector("#quantity");
-        const quantityChoice = quantity.value
-       
-
+        //
+        const quantityCall = document.querySelector("#quantity");
+        //assigning the value of the id 'colors' to color choice
+        const quantityChoice = Number(quantityCall.value);
+        
         //creating an array of product
         let productArray ={
             "id": id,
-            "quantity":Number(quantityChoice),
+            "quantity":quantityChoice,
             "color": colorChoice,
             "url":url,
             "name": name,
@@ -100,12 +103,14 @@ async function getData() {
             let productInBasket = basket.find((p) =>{ return p.id == productArray.id  &&  p.color == productArray.color})
             //if the product in basket is different from undefined,color and id are the same
             if (productInBasket != undefined) {
-                // 
+                //  
                 productInBasket.quantity++;
+                productArray.quantity = quantity;
+               
               
             } else {
                 //default quantity
-                productArray.quantity = quantity.value;
+               
                 //pushing the product array in the basket
                 basket.push(productArray);
             }
