@@ -19,7 +19,6 @@ async function getData() {
       //selecting the html element in which products will nest
       const cart = document.querySelector('#cart__items')
       
-      
    
       //adding elements in the DOM with "document.createElement()", ".appendChild", "innerHTML" and ".setAttributes" :
 
@@ -30,8 +29,6 @@ async function getData() {
       article.dataset.color = `${basketColor}`
       article.setAttribute("data-color", ` ${basketColor}`);
       cart.appendChild(article)
-
-
 
       // img
       const imgContainer = document.createElement('div');
@@ -81,7 +78,6 @@ async function getData() {
       quantityInput.setAttribute("value", `${basketQuantity}`);
       quantitySettings.appendChild(quantityInput);
 
-      //
       
       //delete button
       const deleteSettings = document.createElement('div');
@@ -92,36 +88,46 @@ async function getData() {
       deletebtn.setAttribute("class", "deleteItem");
       deletebtn.innerHTML = `Supprimer `;
       deleteSettings.appendChild(deletebtn);
-
+      //If the button is clicked,change the quantity,and the total
       //total quantity
       let totalBasketQuantity = 0
       for (let i=0; i< localProduct.length ; i++)
       {
-         totalBasketQuantity+= localProduct[i].quantity;
+         totalBasketQuantity+= parseInt(localProduct[i].quantity);
       }
       document.querySelector('#totalQuantity').innerText = totalBasketQuantity
       
+      // total product
+      let totalproductPrice =0
+      for (let i=0; i< localProduct.length ; i++)
+      {
+         totalproductPrice = localProduct[i].quantity*basketprice
+      }
+      console.log(totalproductPrice)
+
       //
+     
+   
+      
 
 
-      //total price
-      //const totalBasketPrice = [];
-      //document.querySelector('#totalPrice').innerText = '5'
+    
+        
+
+
+     
+
+     
+      
+     
    }
-
+    
 
 
 
 
 
 }
-
-
-
-
-
-
-
 
 
 //calling the function
