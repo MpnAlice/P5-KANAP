@@ -1,3 +1,4 @@
+
 //extracting the id of the product from the end of the url's page
 const queryString_url = window.location.search
 // easy method to separate the id from the string
@@ -30,7 +31,7 @@ async function getData() {
     //adding Description
     const productDescription = document.querySelector('#description');
     productDescription.innerText = product.description;
-
+    
     //colors
     const colorSelection = document.querySelector('#colors');
     let colorsPalette = product.colors;
@@ -51,9 +52,7 @@ async function getData() {
     const addButton = document.querySelector("#addToCart");
     addButton.addEventListener('click', (event) => {
         event.preventDefault();
-
-
-
+      
 
         //
         const colorCall = document.querySelector("#colors");
@@ -73,7 +72,8 @@ async function getData() {
             "name": name,
             //"price":price
         }
-        
+        //console.log(productArray);
+
         //handling local storage//
         let basket =[];
       
@@ -102,11 +102,15 @@ async function getData() {
             //finding the product in basket by id
             let productInBasket = basket.find((p) =>{ return p.id == productArray.id  &&  p.color == productArray.color})
             //if the product in basket is different from undefined,color and id are the same
+            console.log(productInBasket)
             if (productInBasket != undefined) {
+                //correction
+                const productInBasketIndex =basket.indexOf(productInBasket)
                 //  
-                productInBasket.quantity++;
+                productInBasket.quantity += productArray.quantity;
+                //
                 productArray.quantity = quantity;
-               
+               basket[productInBasketIndex]=productInBasket;
               
             } else {
                 //default quantity
