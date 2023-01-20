@@ -75,8 +75,17 @@ export async function getData() {
       quantityInput.setAttribute("max", "100");
       quantityInput.setAttribute("value", `${basketQuantity}`);
       quantitySettings.appendChild(quantityInput);
-      //
-
+   
+      //delete button
+     const deleteSettings = document.createElement('div');
+     deleteSettings.setAttribute("class", "cart__item__content__settings__delete");
+     settings.appendChild(deleteSettings);
+     //
+     const deletebtn = document.createElement('p');
+     deletebtn.setAttribute("class", "deleteItem");
+     deletebtn.innerHTML = `Supprimer `;
+     deleteSettings.appendChild(deletebtn);
+    
    }
 
 }
