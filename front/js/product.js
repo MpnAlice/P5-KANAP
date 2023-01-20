@@ -1,4 +1,3 @@
-
 //extracting the id of the product from the end of the url's page
 const queryString_url = window.location.search
 // easy method to separate the id from the string
