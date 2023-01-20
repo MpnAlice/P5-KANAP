@@ -1,9 +1,7 @@
 import { apiUrl } from "./utils.js";
 let localProduct = JSON.parse(localStorage.getItem("basket"));
-//console.log(localProduct)
 
-
-async function getData() {
+export async function getData() {
    const response = await fetch(apiUrl)
    //API LIST  .
    const data = await response.json();
