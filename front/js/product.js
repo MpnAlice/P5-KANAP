@@ -1,4 +1,4 @@
-import { productUrl, id } from "./utils.js";
+import { productUrl, id, queryString_url} from "./utils.js";
 //fetching the product's info from the new url 
 async function getProducts() {
     const response = await fetch(productUrl)
@@ -46,8 +46,6 @@ async function getProducts() {
     const addButton = document.querySelector("#addToCart");
     addButton.addEventListener('click', (event) => {
         event.preventDefault();
-      
-
         //
         const colorCall = document.querySelector("#colors");
         //assigning the value of the id 'colors' to color choice
@@ -69,25 +67,25 @@ async function getProducts() {
         //console.log(productArray);
 
         //handling local storage//
-        let basket =[];
       
+    
         //saving the basket in the local storage
         function saveBasket(basket){
             localStorage.setItem("basket", JSON.stringify(basket));
         }
        
-
         //getting the item with the key "basket"
         function getBasket(){
-            let basket = localStorage.getItem("basket")
+            let basket = localStorage.getItem("basket");
             //if the basket is empty
             if (basket == null) {
                 return[] 
             } else {
-                return JSON.parse(localStorage.getItem("basket"));
+            return JSON.parse(basket);
             }
              
         }
+
 
         //adding the productArray to the "basket"
         function addtoBasket(productArray){
