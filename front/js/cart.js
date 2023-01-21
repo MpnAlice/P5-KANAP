@@ -106,15 +106,13 @@ console.log(basket)
             //getting on click de dataset of the removed article
             let removediD = buttonCliked.closest('article').dataset.id;
             let removeColor = buttonCliked.closest('article').dataset.color;
-            
+
             //setting the data of the new filtered basket
             basket = basket.filter(e => e.id !== removediD && e.color !== removeColor)
             localStorage.setItem("basket", JSON.stringify(basket));
-
-           
+            //
             console.log(removeColor)
-         
-
+      
          }
 
          buttonCliked.closest('article').remove();
@@ -153,14 +151,18 @@ console.log(basket)
 
    ////////////total price
     let cartTotal = document.getElementById("totalPrice");
+    let cartcontainer = document.getElementById("cart__items")[0]
+    let article = document.getElementsByClassName('cart__item')
     let totalPrice = 0;
     for (let i = 0; i < basket.length; i++) {
        let item = basket[i];
        let itemId = item.id
-       let qt = item.quantity;
+       let quantityElemnt = document.getElementsByClassName('itemQuantity')[0];
+       let qt = quantityElemnt.value
        const basketElements = data.find((element) => element._id === itemId);
        let basketprice = basketElements.price;
        totalPrice += qt * basketprice
+       console.log(article)
       
     }
 
