@@ -12,6 +12,7 @@ export async function getData() {
       //finding elements who have the same id as tle local elements and retrieveing those data
       const basketElements = data.find((element) => element._id === basketId);
       let basketprice = basketElements.price;
+      
 
 
       //selecting the html element in which products will nest
@@ -87,9 +88,11 @@ export async function getData() {
      deletebtn.innerHTML = `Supprimer `;
      deleteSettings.appendChild(deletebtn);
 
-   
-     //remove items with the delete button
-     var removeBtn = document.getElementsByClassName('deleteItem')
+   }
+
+
+   ////  /////remove items with the delete button
+    var removeBtn = document.getElementsByClassName('deleteItem');
      console.log(removeBtn)
      for (var i= 0; i< removeBtn.length; i++){
       var button = removeBtn[i]
@@ -98,67 +101,27 @@ export async function getData() {
          buttonCliked.closest('article').remove()
       })
      }
-    
+
+   ////total quantity
+    let itemsQuantity = document.querySelectorAll(".itemQuantity");
+    let totalQuantity = 0;
+    for(var i=0; i< itemsQuantity.length; i++){
+      let value = itemsQuantity[i].value;
+      totalQuantity += parseInt(value)
+      console.log(totalQuantity)
+    }
+
+    document.getElementById("totalQuantity").innerText= totalQuantity
 
     
-      
-   }
 
 
-}
-
-
-//calling the function
-getData();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
+   
+ }
+ //calling the function
+ getData();
+ 
 
 
 
