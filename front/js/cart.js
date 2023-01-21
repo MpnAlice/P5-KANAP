@@ -100,23 +100,45 @@ console.log(basket)
        var button = removeBtn[i]
        button.addEventListener('click', function (event) {
           var buttonCliked = event.target
-
           if( confirm("voulez-vous supprimer cet article ?") == true)
 
           { 
-            //setting de dataset of the removed article
+            //getting on click de dataset of the removed article
             let removediD = buttonCliked.closest('article').dataset.id;
             let removeColor = buttonCliked.closest('article').dataset.color;
-
+            
             //setting the data of the new filtered basket
-            basket = basket.filter(e => e.id !== removediD || e.color !== removeColor)
+            basket = basket.filter(e => e.id !== removediD && e.color !== removeColor)
             localStorage.setItem("basket", JSON.stringify(basket));
-          }
-      
-          {buttonCliked.closest('article').remove()}
+
+           
+            console.log(removeColor)
+         
+
+         }
+
+         buttonCliked.closest('article').remove();
+         //reloading after deleting the item
+         window.location.reload()
 
       })
     }
+
+    ////////changing the quantity of elements in the cart with the input quanty
+    let changeInputs = document.getElementsByClassName('.itemQuantity');
+    for(var i=0; i < changeInputs.length; i++){
+       var input = changeInputs[i]
+       input.addEventlistener('change', quantityChanged)
+    }
+
+    function quantityChanged(event){
+      var input = event.target
+      if(isNan(input.value) || input.value <= 0){
+         input.value =1
+      }
+      console.log('clicked')
+   }
+
 
    /////////////total quantity
     let cartQuantity = document.getElementById("totalQuantity")
@@ -143,6 +165,7 @@ console.log(basket)
     }
 
     cartTotal.innerText = totalPrice
+   
   
   
 
