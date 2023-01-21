@@ -1,11 +1,6 @@
-//extracting the id of the product from the end of the url's page
-const queryString_url = window.location.search
-// easy method to separate the id from the string
-const id = queryString_url.slice(4)
-
+import { productUrl, id } from "./utils.js";
 //fetching the product's info from the new url 
-let productUrl = (`http://localhost:3000/api/products/${id}`);
-async function getData() {
+async function getProducts() {
     const response = await fetch(productUrl)
     const product = await response.json();
 
@@ -131,7 +126,7 @@ async function getData() {
 
 }
 //calling the function
-getData();
+getProducts();
 
 
 
