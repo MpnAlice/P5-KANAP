@@ -1,4 +1,4 @@
-import { productUrl, id, apiUrl } from "./utils.js";
+import {  apiUrl} from "./utils.js";
 //getting the basket from the local storage
 let basket = JSON.parse(localStorage.getItem("basket"));
 console.log(basket)
@@ -76,6 +76,9 @@ console.log(basket)
       quantityInput.setAttribute("max", "100");
       quantityInput.setAttribute("value", `${basketQuantity}`);
       quantitySettings.appendChild(quantityInput);
+
+
+    //DYNAMICALLY CHANGING THE QUANTITY WITH THE INPUT ON CART
    
       //delete button
      const deleteSettings = document.createElement('div');
@@ -89,7 +92,7 @@ console.log(basket)
      deleteSettings.appendChild(deletebtn);
    }
 
-      //////////MODIFICATION OF THE TOTALS  BY CHANGING QUANITY OR REMOVING ITEMS
+   //////////MODIFICATION OF THE TOTALS  BY CHANGING QUANITY OR REMOVING ITEMS
 
     /////////remove items with the delete button
     var removeBtn = document.getElementsByClassName('deleteItem');
@@ -97,18 +100,23 @@ console.log(basket)
        var button = removeBtn[i]
        button.addEventListener('click', function (event) {
           var buttonCliked = event.target
+
           if( confirm("voulez-vous supprimer cet article ?") == true)
-          {
-            buttonCliked.closest('article').remove()
+
+          { 
+            //setting de dataset of the removed article
+            let removediD = buttonCliked.closest('article').dataset.id;
+            let removeColor = buttonCliked.closest('article').dataset.color;
+
+            //setting the data of the new filtered basket
+            basket = basket.filter(e => e.id !== removediD || e.color !== removeColor)
+            localStorage.setItem("basket", JSON.stringify(basket));
           }
-          
+      
+          {buttonCliked.closest('article').remove()}
 
-
-       })
+      })
     }
-
-
-
 
    /////////////total quantity
     let cartQuantity = document.getElementById("totalQuantity")
@@ -136,10 +144,11 @@ console.log(basket)
 
     cartTotal.innerText = totalPrice
   
+  
 
-
+    
 }
-
+  
 getData();
 
 
