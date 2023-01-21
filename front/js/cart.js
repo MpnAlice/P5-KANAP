@@ -89,18 +89,28 @@ console.log(basket)
      deleteSettings.appendChild(deletebtn);
    }
 
-    ////  /////remove items with the delete button
+      //////////MODIFICATION OF THE TOTALS  BY CHANGING QUANITY OR REMOVING ITEMS
+
+    /////////remove items with the delete button
     var removeBtn = document.getElementsByClassName('deleteItem');
     for (var i = 0; i < removeBtn.length; i++) {
        var button = removeBtn[i]
        button.addEventListener('click', function (event) {
           var buttonCliked = event.target
-          buttonCliked.closest('article').remove()
+          if( confirm("voulez-vous supprimer cet article ?") == true)
+          {
+            buttonCliked.closest('article').remove()
+          }
+          
+
+
        })
     }
 
 
-   /////////////////////total quantity
+
+
+   /////////////total quantity
     let cartQuantity = document.getElementById("totalQuantity")
     let itemsQuantity = document.querySelectorAll(".itemQuantity");
     let totalQuantity = 0;
@@ -111,11 +121,10 @@ console.log(basket)
 
     cartQuantity.innerText = totalQuantity
 
-   ///////////////////total price
+   ////////////total price
     let cartTotal = document.getElementById("totalPrice");
     let totalPrice = 0;
     for (let i = 0; i < basket.length; i++) {
-
        let item = basket[i];
        let itemId = item.id
        let qt = item.quantity;
@@ -129,17 +138,15 @@ console.log(basket)
   
 
 
-
-
-
 }
+
 getData();
 
 
 
 
 
- //document.getElementById("totalPice").innerText= totalPrice
+
  
 
 
