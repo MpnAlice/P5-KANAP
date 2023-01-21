@@ -1,20 +1,22 @@
-import { apiUrl } from "./utils.js";
-let localProduct = JSON.parse(localStorage.getItem("basket"));
-
-export async function getData() {
+import { productUrl, id, apiUrl } from "./utils.js";
+//getting the basket from the local storage
+let basket = JSON.parse(localStorage.getItem("basket"));
+console.log(basket)
+//
+ async function getData() {
    const response = await fetch(apiUrl)
    //API LIST  .
    const data = await response.json();
-   for (let product of localProduct) {
+
+   for (let product of basket) {
       let basketQuantity = product.quantity
       const basketId = product.id
       const basketColor = product.color;
       //finding elements who have the same id as tle local elements and retrieveing those data
       const basketElements = data.find((element) => element._id === basketId);
       let basketprice = basketElements.price;
-      
-
-
+      console.log(basketprice)
+   
       //selecting the html element in which products will nest
       const cart = document.querySelector('#cart__items')
    
@@ -28,7 +30,6 @@ export async function getData() {
       article.setAttribute("data-color", ` ${basketColor}`);
       cart.appendChild(article)
     
-
       // img
       const imgContainer = document.createElement('div');
       imgContainer.setAttribute("class", "cart__item__img")
@@ -37,7 +38,6 @@ export async function getData() {
       const productImg = document.createElement('img');
       imgContainer.appendChild(productImg);
       productImg.src = basketElements.imageUrl
-
 
       //content
       const productContent = document.createElement('div');
@@ -87,41 +87,76 @@ export async function getData() {
      deletebtn.setAttribute("class", "deleteItem");
      deletebtn.innerHTML = `Supprimer `;
      deleteSettings.appendChild(deletebtn);
-
    }
 
-
-   ////  /////remove items with the delete button
+    ////  /////remove items with the delete button
     var removeBtn = document.getElementsByClassName('deleteItem');
-     console.log(removeBtn)
-     for (var i= 0; i< removeBtn.length; i++){
-      var button = removeBtn[i]
-      button.addEventListener('click', function(event){
-         var buttonCliked = event.target
-         buttonCliked.closest('article').remove()
-      })
-     }
-
-   ////total quantity
-    let itemsQuantity = document.querySelectorAll(".itemQuantity");
-    let totalQuantity = 0;
-    for(var i=0; i< itemsQuantity.length; i++){
-      let value = itemsQuantity[i].value;
-      totalQuantity += parseInt(value)
-      console.log(totalQuantity)
+    for (var i = 0; i < removeBtn.length; i++) {
+       var button = removeBtn[i]
+       button.addEventListener('click', function (event) {
+          var buttonCliked = event.target
+          buttonCliked.closest('article').remove()
+       })
     }
 
-    document.getElementById("totalQuantity").innerText= totalQuantity
 
-    
+   /////////////////////total quantity
+    let cartQuantity = document.getElementById("totalQuantity")
+    let itemsQuantity = document.querySelectorAll(".itemQuantity");
+    let totalQuantity = 0;
+    for (var i = 0; i < itemsQuantity.length; i++) {
+       let value = itemsQuantity[i].value;
+       totalQuantity += parseInt(value)
+    }
+
+    cartQuantity.innerText = totalQuantity
+
+   ///////////////////total price
+    let cartTotal = document.getElementById("totalPrice");
+    let totalPrice = 0;
+    for (let i = 0; i < basket.length; i++) {
+
+       let item = basket[i];
+       let itemId = item.id
+       let qt = item.quantity;
+       const basketElements = data.find((element) => element._id === itemId);
+       let basketprice = basketElements.price;
+       totalPrice += qt * basketprice
+      
+    }
+
+    cartTotal.innerText = totalPrice
+  
 
 
+
+
+
+}
+getData();
+
+
+
+
+
+ //document.getElementById("totalPice").innerText= totalPrice
  
-   
- }
- //calling the function
- getData();
- 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
