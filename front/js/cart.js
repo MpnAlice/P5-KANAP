@@ -92,7 +92,7 @@ async function getData() {
 
    //////////MODIFICATION OF THE TOTALS  BY CHANGING QUANITY OR REMOVING ITEMS
 
-    /////////remove items with the delete button
+   /////////remove items with the delete button
     var removeBtn = document.getElementsByClassName('deleteItem');
     for (var i = 0; i < removeBtn.length; i++) {
        var button = removeBtn[i]
@@ -103,10 +103,10 @@ async function getData() {
           { 
             //getting on click de dataset of the removed article
             let removediD = buttonCliked.closest('article').dataset.id;
-            let removeColor = buttonCliked.closest('article').dataset.color;
+            let removedColor = buttonCliked.closest('article').dataset.color;
 
             //setting the data of the new filtered basket
-            basket = basket.filter(e => e.id !== removediD && e.color !== removeColor)
+            basket = basket.filter(e => e.id !== removediD && e.color !== removedColor)
             localStorage.setItem("basket", JSON.stringify(basket));
             //
          }
@@ -117,8 +117,40 @@ async function getData() {
 
       })
    }
+   
+   function changeQuantity() {
+      /////////change quantity with the input
+      const quantitySelector = document.getElementsByClassName("itemQuantity");
+     
+      for (var i = 0; i < quantitySelector.length; i++) {
+         var input = quantitySelector[i];
+         let item =basket[i];
+         input.addEventListener("change",(e) =>{
+            e.preventDefault;
+            //
+            let newValue = input.value
+
+            //the value is equal under 0 or is not a number
+
+            if (isNaN(newValue) || newValue <=0) {
+               alert("veuillez renseigner une quantité correcte!")
+            }
+            
+            // the new value is != from 0 
+            if  (  newValue != 0 && newValue <= 100) {
+               item.quantity = newValue
+               alert("la quantité de cet article a bien été modifiée")
+               localStorage.setItem("basket", JSON.stringify(basket))
+            }
+
+            //reloading after adding the item
+            window.location.reload()
 
 
+         }
+      )}
+   }
+   changeQuantity()
 
    function quantityAndprice() {
       ////////////total quantity
@@ -149,13 +181,10 @@ async function getData() {
 
 
    }
-   
- quantityAndprice();
 
-  
+   quantityAndprice();
+
 }
-
-  
 getData();
 
 
