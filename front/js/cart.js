@@ -3,7 +3,7 @@ import {  apiUrl} from "./utils.js";
 let basket = JSON.parse(localStorage.getItem("basket"));
 console.log(basket)
 //
- async function getData() {
+async function getData() {
    const response = await fetch(apiUrl)
    //API LIST  .
    const data = await response.json();
@@ -14,9 +14,7 @@ console.log(basket)
       const basketColor = product.color;
       //finding elements who have the same id as tle local elements and retrieveing those data
       const basketElements = data.find((element) => element._id === basketId);
-      let basketprice = basketElements.price;
-      console.log(basketprice)
-   
+  
       //selecting the html element in which products will nest
       const cart = document.querySelector('#cart__items')
    
@@ -50,7 +48,7 @@ console.log(basket)
       description.innerHTML = `
      <h2>${basketElements.name}</h2>
      <p>${basketColor}</p>
-     <p>${basketprice}€</p>
+     <p>${basketElements.price}€</p>
      `
       //settings
       const settings = document.createElement('div');
@@ -111,8 +109,6 @@ console.log(basket)
             basket = basket.filter(e => e.id !== removediD && e.color !== removeColor)
             localStorage.setItem("basket", JSON.stringify(basket));
             //
-            console.log(removeColor)
-      
          }
 
          buttonCliked.closest('article').remove();
@@ -120,61 +116,41 @@ console.log(basket)
          window.location.reload()
 
       })
-    }
-
-    ////////changing the quantity of elements in the cart with the input quanty
-    let changeInputs = document.getElementsByClassName('.itemQuantity');
-    for(var i=0; i < changeInputs.length; i++){
-       var input = changeInputs[i]
-       input.addEventlistener('change', quantityChanged)
-    }
-
-    function quantityChanged(event){
-      var input = event.target
-      if(isNan(input.value) || input.value <= 0){
-         input.value =1
-      }
-      console.log('clicked')
    }
 
-
-   /////////////total quantity
-    let cartQuantity = document.getElementById("totalQuantity")
-    let itemsQuantity = document.querySelectorAll(".itemQuantity");
-    let totalQuantity = 0;
-    for (var i = 0; i < itemsQuantity.length; i++) {
-       let value = itemsQuantity[i].value;
-       totalQuantity += parseInt(value)
-    }
-
-    cartQuantity.innerText = totalQuantity
-
-   ////////////total price
-    let cartTotal = document.getElementById("totalPrice");
-    let cartcontainer = document.getElementById("cart__items")[0]
-    let article = document.getElementsByClassName('cart__item')
-    let totalPrice = 0;
-    for (let i = 0; i < basket.length; i++) {
-       let item = basket[i];
-       let itemId = item.id
-       let quantityElemnt = document.getElementsByClassName('itemQuantity')[0];
-       let qt = quantityElemnt.value
-       const basketElements = data.find((element) => element._id === itemId);
-       let basketprice = basketElements.price;
-       totalPrice += qt * basketprice
-       console.log(article)
-      
-    }
-
-    cartTotal.innerText = totalPrice
-   
-  
-  
-
-    
+   quantityAndprice()
 }
   
 getData();
+
+
+
+////////////total price
+function quantityAndprice() {
+   ////////////total quantity
+   let cartQuantity = document.getElementById("totalQuantity")
+   let itemsQuantity = document.querySelectorAll(".itemQuantity");
+   let totalQuantity = 0;
+   for (var i = 0; i < itemsQuantity.length; i++) {
+      let value = itemsQuantity[i].value;
+      totalQuantity += parseInt(value)
+   }
+
+   cartQuantity.innerText = totalQuantity
+
+
+
+
+   let cartPrice = document.getElementById("totalPrice")
+   let totalPrice = 0;
+
+
+}
+
+
+
+
+
 
 
 
