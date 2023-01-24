@@ -118,34 +118,48 @@ async function getData() {
       })
    }
 
-   quantityAndprice()
+
+
+   function quantityAndprice() {
+      ////////////total quantity
+      let cartQuantity = document.getElementById("totalQuantity")
+      let itemsQuantity = document.querySelectorAll(".itemQuantity");
+      let totalQuantity = 0;
+      for (var i = 0; i < itemsQuantity.length; i++) {
+         let value = itemsQuantity[i].value;
+         totalQuantity += parseInt(value)
+      }
+
+      cartQuantity.innerText = totalQuantity
+
+
+      ////////////total price
+      let cartPrice = document.getElementById("totalPrice")
+   
+      let totalPrice = 0;
+   
+      //let productdata = []
+      for (let i = 0; i < basket.length; i++) {
+         let item = basket[i];
+         let basketElements = data.find((e)=> e._id == item.id);
+         totalPrice += itemsQuantity[i].value * basketElements.price
+      }
+
+      cartPrice.innerText = totalPrice
+
+
+   }
+   
+ quantityAndprice();
+
+  
 }
+
   
 getData();
 
 
 
-////////////total price
-function quantityAndprice() {
-   ////////////total quantity
-   let cartQuantity = document.getElementById("totalQuantity")
-   let itemsQuantity = document.querySelectorAll(".itemQuantity");
-   let totalQuantity = 0;
-   for (var i = 0; i < itemsQuantity.length; i++) {
-      let value = itemsQuantity[i].value;
-      totalQuantity += parseInt(value)
-   }
-
-   cartQuantity.innerText = totalQuantity
-
-
-
-
-   let cartPrice = document.getElementById("totalPrice")
-   let totalPrice = 0;
-
-
-}
 
 
 
