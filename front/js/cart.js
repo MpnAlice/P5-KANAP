@@ -239,12 +239,18 @@ regexForm();
             userProducts: finalBasket
          }
 
-         console.log(newOrder)
+         //POST DATA TO THE BACK END
+         const finalOrder ={
+            method :'POST',
+            //stringifying the objects
+            body: JSON.stringify(newOrder),
+            headers :{
+               'content-Type':'application/json',
+               'Accept': 'application/json'
+            }
 
-      
-         
-
-
+         };
+         console.log(finalOrder)
 
       }
 
