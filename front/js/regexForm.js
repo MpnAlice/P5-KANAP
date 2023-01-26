@@ -1,14 +1,14 @@
 export function regexForm() {
     /////////////////////////////////////////REGEX
 
-    //***email's validation */
     let form = document.querySelector(".cart__order__form");
+
     //listening to the input with "change"
     form.email.addEventListener('change', function () {
         validEmail(this);
 
     });
-
+     
     const validEmail = function (inputEmail) {
         //creation of the reg exp for email-validation
         let emailRegExp = new RegExp(
@@ -76,10 +76,10 @@ export function regexForm() {
             '^[a-zA-z.-_]{1,2}'
         )
 
-        let lastName = lastNameRegExp.test(document.querySelector('#lastName').value);
-        let message = document.querySelector('#lastName').nextElementSibling;
+        let testlastName = lastNameRegExp.test(inputlastName.value);
+        let message = inputlastName.nextElementSibling;
 
-        if (lastName) {
+        if (testlastName) {
             message.innerHTML = "Nom Valide";
             return true
 
@@ -127,15 +127,15 @@ export function regexForm() {
 
         //CORREC THIS 
         //creation of the reg exp for email-validation
-        let addressRegExp = new RegExp(
+        let cityRegExp = new RegExp(
             '^[a-zA-z.-_]{1,2}'
         )
 
-        let city = addressRegExp.test(inputCity.value);
+        let city = cityRegExp.test(inputCity.value);
         let message = inputCity.nextElementSibling;
 
         if (city) {
-            //message.innerHTML = "nom de ville valide";
+            message.innerHTML = "nom de ville valide";
             return true
 
         }
@@ -151,7 +151,7 @@ export function regexForm() {
 }
 
 
-//
+/// email's regex
 export const validEmail = function (inputEmail) {
     //creation of the reg exp for email-validation
     let emailRegExp = new RegExp(
@@ -179,7 +179,7 @@ export const validEmail = function (inputEmail) {
 
 }
 
-
+// firstname's regex
 export const validfirstName = function (inputfirstName) {
 
     //CORREC THIS 
@@ -204,6 +204,7 @@ export const validfirstName = function (inputfirstName) {
 
 }
 
+// lastname's regex
 export const validlastName = function (inputlastName) {
 
     //CORREC THIS 
@@ -212,7 +213,7 @@ export const validlastName = function (inputlastName) {
         '^[a-zA-z.-_]{1,2}'
     )
 
-    let lastName = lastNameRegExp.test(document.querySelector('#lastName').value);
+    let lastName = lastNameRegExp.test(inputlastName.value);
     let message = document.querySelector('#lastName').nextElementSibling;
 
     if (lastName) {
@@ -226,8 +227,8 @@ export const validlastName = function (inputlastName) {
     }
 
 }
-//
 
+// adress's regex
 export const validaddress = function (inputAddress) {
 
     //CORREC THIS 
@@ -252,9 +253,7 @@ export const validaddress = function (inputAddress) {
 
 }
 
-//
-
-
+//city's regex
 export const validcity = function (inputCity) {
 
     //CORREC THIS 
@@ -265,9 +264,9 @@ export const validcity = function (inputCity) {
 
     let city = addressRegExp.test(inputCity.value);
     let message = inputCity.nextElementSibling;
-
+    // add the city test in the if
     if (city) {
-        //message.innerHTML = "nom de ville valide";
+        message.innerHTML = "nom de ville valide";
         return true
 
     }
