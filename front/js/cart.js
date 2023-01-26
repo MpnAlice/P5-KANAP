@@ -212,10 +212,30 @@ regexForm();
       }
       //if the basket is not empty  and there's no errors in the form ,confirm your order
       else if (confirm("confirmez-vous votre commande?") == true) {
-         console.log("ok")
+
+         // creating a new array from saved products,thefinal Basket
+         let finalBasket =[];
+         //pushing the id of every items from the local saved "basket" into the "final basket "
+         for(let i = 0; i< basket.length; i++){
+            finalBasket.push(basket[i].id);
+         }
+
+         console.log(finalBasket)
+
+         console.log(order)
+         
+
+
 
       }
+
+
+      
    })
+
+
+
+ 
 
 
  
