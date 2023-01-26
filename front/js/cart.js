@@ -2,7 +2,6 @@ import { apiUrl } from "./utils.js" ;
 import { regexForm, validEmail,validaddress,validcity,validfirstName,validlastName } from "./regexForm.js";
 //getting the basket from the local storage
 let basket = JSON.parse(localStorage.getItem("basket"));
-console.log(basket)
 //
 async function getData() {
    const response = await fetch(apiUrl)
@@ -184,6 +183,10 @@ async function getData() {
 
    quantityAndprice();
 
+
+   
+
+
    
 }
 getData();
@@ -192,24 +195,38 @@ regexForm();
 
 //////////////ORDER
 
- let form = document.querySelector(".cart__order__form");
+   let form = document.querySelector(".cart__order__form");
 
- let orderFormBtn = document.querySelector('#order');
+   let orderFormBtn = document.querySelector('#order');
 
- orderFormBtn.addEventListener('click',function(e){
-   e.preventDefault();
-   //
-   if (basket=[] ) {
-     alert("votre panier est vide")
-     if(confirm(("souhaitez-vous effectuer votre choix?")) == true)
-     window.location.href ="./index.html"
+   orderFormBtn.addEventListener('click', function (e) {
+      e.preventDefault();
 
-   } else {
-      
-   }
- })
+      if (validEmail(form.email) == false)  {
+         alert("veuillez corriger le(s) champs invalide(s)");
+      }
+
+      //if the basket is empty
+      else if (basket === null || basket == 0) {
+
+         //an alert appears to alarm the client
+         alert("votre panier est vide");
+         //confirmation of the redirection to the home page
+         if (confirm(("souhaitez-vous effectuer votre choix?")) == true);
+         window.location.href = "./index.html";
+         //add  areload here for the page
+
+      }
+
+      //if the basket is not empty  and there's no errors in the form ,confirm your order
+      else if (confirm("confirmez-vous votre commande?") == true) {
+         console.log("ok")
+
+      }
+   })
 
 
+ 
 
    
  //if (basket === null || basket == [] || basket == 0) {
