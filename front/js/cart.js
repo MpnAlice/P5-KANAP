@@ -1,4 +1,5 @@
-import {  apiUrl} from "./utils.js";
+import { apiUrl } from "./utils.js" ;
+import { regexForm, validEmail,validaddress,validcity,validfirstName,validlastName } from "./regexForm.js";
 //getting the basket from the local storage
 let basket = JSON.parse(localStorage.getItem("basket"));
 console.log(basket)
@@ -14,10 +15,10 @@ async function getData() {
       const basketColor = product.color;
       //finding elements who have the same id as tle local elements and retrieveing those data
       const basketElements = data.find((element) => element._id === basketId);
-  
+
       //selecting the html element in which products will nest
       const cart = document.querySelector('#cart__items')
-   
+
       //adding elements in the DOM with "document.createElement()", ".appendChild", "innerHTML" and ".setAttributes" :
 
       //article
@@ -27,7 +28,7 @@ async function getData() {
       article.dataset.color = `${basketColor}`
       article.setAttribute("data-color", ` ${basketColor}`);
       cart.appendChild(article)
-    
+
       // img
       const imgContainer = document.createElement('div');
       imgContainer.setAttribute("class", "cart__item__img")
@@ -76,31 +77,29 @@ async function getData() {
       quantitySettings.appendChild(quantityInput);
 
 
-    //DYNAMICALLY CHANGING THE QUANTITY WITH THE INPUT ON CART
-   
-      //delete button
-     const deleteSettings = document.createElement('div');
-     deleteSettings.setAttribute("class", "cart__item__content__settings__delete");
-     settings.appendChild(deleteSettings);
+      //DYNAMICALLY CHANGING THE QUANTITY WITH THE INPUT ON CART
 
-     //
-    const deletebtn = document.createElement('p');
-     deletebtn.setAttribute("class", "deleteItem");
-     deletebtn.innerHTML = `Supprimer `;
-     deleteSettings.appendChild(deletebtn);
+      //delete button
+      const deleteSettings = document.createElement('div');
+      deleteSettings.setAttribute("class", "cart__item__content__settings__delete");
+      settings.appendChild(deleteSettings);
+
+      //
+      const deletebtn = document.createElement('p');
+      deletebtn.setAttribute("class", "deleteItem");
+      deletebtn.innerHTML = `Supprimer `;
+      deleteSettings.appendChild(deletebtn);
    }
 
    //////////MODIFICATION OF THE TOTALS  BY CHANGING QUANITY OR REMOVING ITEMS
 
    /////////remove items with the delete button
-    var removeBtn = document.getElementsByClassName('deleteItem');
-    for (var i = 0; i < removeBtn.length; i++) {
-       var button = removeBtn[i]
-       button.addEventListener('click', function (event) {
-          var buttonCliked = event.target
-          if( confirm("voulez-vous supprimer cet article ?") == true)
-
-          { 
+   var removeBtn = document.getElementsByClassName('deleteItem');
+   for (var i = 0; i < removeBtn.length; i++) {
+      var button = removeBtn[i]
+      button.addEventListener('click', function (event) {
+         var buttonCliked = event.target
+         if (confirm("voulez-vous supprimer cet article ?") == true) {
             //getting on click de dataset of the removed article
             let removediD = buttonCliked.closest('article').dataset.id;
             let removedColor = buttonCliked.closest('article').dataset.color;
@@ -117,38 +116,39 @@ async function getData() {
 
       })
    }
-   
+
    function changeQuantity() {
       /////////change quantity with the input
       const quantitySelector = document.getElementsByClassName("itemQuantity");
-     
+
       for (var i = 0; i < quantitySelector.length; i++) {
          var input = quantitySelector[i];
-         let item =basket[i];
-         input.addEventListener("change",(e) =>{
+         let item = basket[i];
+         input.addEventListener("change", (e) => {
             e.preventDefault;
             //
             let newValue = input.value
 
             //the value is equal under 0 or is not a number
 
-            if (isNaN(newValue) || newValue <=0) {
+            if (isNaN(newValue) || newValue <= 0) {
                alert("veuillez renseigner une quantité correcte!")
             }
-            
-            // the new value is != from 0 
-            if  (  newValue != 0 && newValue <= 100) {
+
+            // the new value is != from 0 //correct the bug here
+            if (newValue <= 100) {
                item.quantity = newValue
                alert("la quantité de cet article a bien été modifiée")
-               localStorage.setItem("basket", JSON.stringify(basket))
             }
+            localStorage.setItem("basket", JSON.stringify(basket))
 
             //reloading after adding the item
             window.location.reload()
 
 
          }
-      )}
+         )
+      }
    }
    changeQuantity()
 
@@ -167,13 +167,13 @@ async function getData() {
 
       ////////////total price
       let cartPrice = document.getElementById("totalPrice")
-   
+
       let totalPrice = 0;
-   
+
       //let productdata = []
       for (let i = 0; i < basket.length; i++) {
          let item = basket[i];
-         let basketElements = data.find((e)=> e._id == item.id);
+         let basketElements = data.find((e) => e._id == item.id);
          totalPrice += itemsQuantity[i].value * basketElements.price
       }
 
@@ -184,39 +184,50 @@ async function getData() {
 
    quantityAndprice();
 
+   
 }
 getData();
 
+regexForm();
+
+//////////////ORDER
+
+ let form = document.querySelector(".cart__order__form");
+
+ let orderFormBtn = document.querySelector('#order');
+
+ orderFormBtn.addEventListener('click',function(e){
+   e.preventDefault();
+   //
+   if (basket=[] ) {
+     alert("votre panier est vide")
+     if(confirm(("souhaitez-vous effectuer votre choix?")) == true)
+     window.location.href ="./index.html"
+
+   } else {
+      
+   }
+ })
 
 
 
-
-
-
-
-
-
-
-
-
-
+   
+ //if (basket === null || basket == [] || basket == 0) {
+   //confirm(('votre panier est vide,souhaitez-vous effectuer votre choix?')==true)
+  // window.location.href ="./index.html"
+   
  
 
+ //if (
+  // (validEmail(form.email) &&
+  // validfirstName(form.firstName) &&
+  // validlastName(form.validName) &&
+  // validaddress(form.address) &&
+  // validcity(form.city))
+  // === true) {
+  // (confirm('confirmez-vous votre commande?') === true)
 
 
+   
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
