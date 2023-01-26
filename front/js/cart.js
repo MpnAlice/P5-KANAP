@@ -221,7 +221,7 @@ regexForm();
          }
 
          //creating ann object for the user's informations
-         let userInfos ={
+         let userInfos = {
           firstName :form.firstName.value,
           lastName: form.lastName.value,
           address :form.address.value,
@@ -230,18 +230,18 @@ regexForm();
 
          }
 
+         // setting the final basket as user's product
          let userProducts = finalBasket
 
-        const newOrder = finalBasket + userInfos
+         // linking user's info and products as the new data to exploits
+         const newOrder = {
+            userInfos : userInfos,
+            userProducts: finalBasket
+         }
 
-        console.log(newOrder)
+         console.log(newOrder)
 
-
-
-
-         console.log(userInfos)
-
-         console.log(order)
+      
          
 
 
