@@ -182,12 +182,6 @@ async function getData() {
    }
 
    quantityAndprice();
-
-
-   
-
-
-   
 }
 getData();
 
@@ -201,11 +195,10 @@ regexForm();
 
    orderFormBtn.addEventListener('click', function (e) {
       e.preventDefault();
-
-      if (validEmail(form.email) == false)  {
-         alert("veuillez corriger le(s) champs invalide(s)");
+      //if an erreor occurs in any inputs
+      if (validEmail(form.email) == false || validfirstName(form.firstName) == false || validlastName(form.lastName) == false || validaddress(form.address) == false || validcity(form.city) == false)  {
+        alert("veuillez corriger le(s) champs invalide(s)");
       }
-
       //if the basket is empty
       else if (basket === null || basket == 0) {
 
@@ -217,7 +210,6 @@ regexForm();
          //add  areload here for the page
 
       }
-
       //if the basket is not empty  and there's no errors in the form ,confirm your order
       else if (confirm("confirmez-vous votre commande?") == true) {
          console.log("ok")
@@ -227,23 +219,6 @@ regexForm();
 
 
  
-
-   
- //if (basket === null || basket == [] || basket == 0) {
-   //confirm(('votre panier est vide,souhaitez-vous effectuer votre choix?')==true)
-  // window.location.href ="./index.html"
-   
- 
-
- //if (
-  // (validEmail(form.email) &&
-  // validfirstName(form.firstName) &&
-  // validlastName(form.validName) &&
-  // validaddress(form.address) &&
-  // validcity(form.city))
-  // === true) {
-  // (confirm('confirmez-vous votre commande?') === true)
-
 
    
 
