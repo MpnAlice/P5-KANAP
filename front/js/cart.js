@@ -220,7 +220,26 @@ regexForm();
             finalBasket.push(basket[i].id);
          }
 
-         console.log(finalBasket)
+         //creating ann object for the user's informations
+         let userInfos ={
+          firstName :form.firstName.value,
+          lastName: form.lastName.value,
+          address :form.address.value,
+          city: form.city.value,
+          Email: form.email.value
+
+         }
+
+         let userProducts = finalBasket
+
+        const newOrder = finalBasket + userInfos
+
+        console.log(newOrder)
+
+
+
+
+         console.log(userInfos)
 
          console.log(order)
          
