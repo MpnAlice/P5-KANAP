@@ -1,4 +1,4 @@
-import { apiUrl } from "./utils.js" ;
+import { apiUrl,orderUrl } from "./utils.js" ;
 import { regexForm, validEmail,validaddress,validcity,validfirstName,validlastName } from "./regexForm.js";
 //getting the basket from the local storage
 let basket = JSON.parse(localStorage.getItem("basket"));
@@ -102,7 +102,7 @@ async function getData() {
             //getting on click de dataset of the removed article
             let removediD = buttonCliked.closest('article').dataset.id;
             let removedColor = buttonCliked.closest('article').dataset.color;
-
+            
             //setting the data of the new filtered basket
             basket = basket.filter(e => e.id !== removediD && e.color !== removedColor)
             localStorage.setItem("basket", JSON.stringify(basket));
@@ -211,52 +211,72 @@ regexForm();
 
       }
       //if the basket is not empty  and there's no errors in the form ,confirm your order
-      else if (confirm("confirmez-vous votre commande?") == true) {
+      else { //(confirm("confirmez-vous votre commande?") == true) 
 
          // creating a new array from saved products,thefinal Basket
-         let finalBasket =[];
+         let product_id =[];
          //pushing the id of every items from the local saved "basket" into the "final basket "
          for(let i = 0; i< basket.length; i++){
-            finalBasket.push(basket[i].id);
+            product_id.push(basket[i].id);
          }
-
-         //creating ann object for the user's informations
-         let userInfos = {
-          firstName :form.firstName.value,
-          lastName: form.lastName.value,
-          address :form.address.value,
-          city: form.city.value,
-          Email: form.email.value
-
-         }
-
-         // setting the final basket as user's product
-         let userProducts = finalBasket
 
          // linking user's info and products as the new data to exploits
-         const newOrder = {
-            userInfos : userInfos,
-            userProducts: finalBasket
-         }
 
-         //POST DATA TO THE BACK END
-         const finalOrder ={
-            method :'POST',
-            //stringifying the objects
-            body: JSON.stringify(newOrder),
-            headers :{
-               'content-Type':'application/json',
-               'Accept': 'application/json'
-            }
+         const  order = {
+            contact: {
+               firstName: form.firstName.value,
+               lastName: form.lastName.value,
+               address: form.address.value,
+               city: form.city.value,
+               email: form.email.value
+
+            },
+
+
+            products: product_id
 
          };
-         console.log(finalOrder)
+         console.log(order)
+         
+
+         //POST DATA TO THE BACK END
+         const options = {
+            method: 'POST',
+
+            headers: {
+               'Accept': 'application/json', 
+               'Content-Type': 'application/json' 
+            },
+
+            body: JSON.stringify(order),
+           
+         };
+
+         //fetching the url with the new parameters
+         fetch("http://localhost:3000/api/products/order", options)
+            .then(res => res.json())
+            .then(datas =>
+              
+               // redirecting the cleint to the confirmation page with the fetched orderId
+               window.location.href="confirmation.html?orderId="+ datas.orderId
+               
+           
+               
+            );
+
+        
+
+
+        
+
 
       }
 
 
+
       
    })
+    
 
 
 
