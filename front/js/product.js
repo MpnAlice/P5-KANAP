@@ -64,7 +64,7 @@ async function getProducts() {
             "name": name,
             //"price":price
         }
-        //console.log(productArray);
+        console.log(productArray.quantity);
 
         //handling local storage//
       
@@ -94,7 +94,7 @@ async function getProducts() {
             //finding the product in basket by id
             let productInBasket = basket.find((p) =>{ return p.id == productArray.id  &&  p.color == productArray.color})
             //if the product in basket is different from undefined,color and id are the same
-            console.log(productInBasket)
+          
             if (productInBasket != undefined) {
                 //correction
                 const productInBasketIndex =basket.indexOf(productInBasket)
@@ -103,22 +103,32 @@ async function getProducts() {
                 //
                 productArray.quantity = quantity;
                basket[productInBasketIndex]=productInBasket;
-              
-            } else {
-                //default quantity
                
+              
+            } 
+            //setting an alert to choose a quantity when it's equal to 0
+            if(productArray.quantity === null||productArray.quantity == 0){
+              alert("veuiilez choisir la quantité")
+            }
+            else {
+                
                 //pushing the product array in the basket
                 basket.push(productArray);
+                //redirecting to the cart's page
+                window.location.href='./cart.html'
             }
           
             //new basket registration
             saveBasket(basket)
+
+            
         }
+
         addtoBasket(productArray);
+      
      
 
-        //redirecting to the cart's page
-        window.location.href='./cart.html'
+      
 
     })
 
