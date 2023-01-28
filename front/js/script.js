@@ -19,14 +19,29 @@ async function getData() {
         let article = document.createElement("article")
         a.appendChild(article)
 
-        //article's content for each elements 
-        //added in the DOM by modifying the innerHtml of the appended article
-        article.innerHTML = (`
-              <img src= ${data[i].imageUrl} alt="${data[i].altTxt}">
-              <h3 class="productName">${data[i].name}</h3>
-              <p class="productDescription">${data[i].description}</p>
-    `
-        )
+        //
+        let img = document.createElement("img")
+        img.src = data[i].imageUrl
+        img.alt = data[i].altTxt
+        //
+        let h3 = document.createElement("h3")
+        h3.setAttribute("class",'productName')
+        h3.innerText = data[i].name
+        //
+        let p = document.createElement('p') 
+        p.setAttribute("class", 'prouctDescription')
+        p.innerText = data[i].description
+       
+        
+        //creating an array with all the article's elements
+        //and adding them to the DOM with the appendchil method
+        let articleInfos =[img, h3, p];
+        articleInfos.forEach(element => {
+
+         article.appendChild(element)
+            
+        });
+      
     }
 
 }
