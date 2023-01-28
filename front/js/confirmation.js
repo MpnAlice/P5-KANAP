@@ -9,5 +9,4 @@ const orderiD = params.get('orderId')
 let confirmation = document.getElementById('orderId')
 
 //adding the id in the DOM
-
 confirmation.innerText = orderiD
