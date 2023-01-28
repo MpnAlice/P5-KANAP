@@ -1,5 +1,5 @@
-import { apiUrl,orderUrl } from "./utils.js" ;
-import { regexForm, validEmail,validaddress,validcity,validfirstName,validlastName } from "./regexForm.js";
+import { apiUrl } from "./utils.js";
+import { regexForm, validEmail, validaddress, validcity, validfirstName, validlastName } from "./regexForm.js";
 //getting the basket from the local storage
 let basket = JSON.parse(localStorage.getItem("basket"));
 //
@@ -102,7 +102,7 @@ async function getData() {
             //getting on click de dataset of the removed article
             let removediD = buttonCliked.closest('article').dataset.id;
             let removedColor = buttonCliked.closest('article').dataset.color;
-            
+
             //setting the data of the new filtered basket
             basket = basket.filter(e => e.id !== removediD && e.color !== removedColor)
             localStorage.setItem("basket", JSON.stringify(basket));
@@ -189,102 +189,93 @@ regexForm();
 
 //////////////ORDER
 
-   let form = document.querySelector(".cart__order__form");
+let form = document.querySelector(".cart__order__form");
 
-   let orderFormBtn = document.querySelector('#order');
+let orderFormBtn = document.querySelector('#order');
 
-   orderFormBtn.addEventListener('click', function (e) {
-      e.preventDefault();
-      //if an erreor occurs in any inputs
-      if (validEmail(form.email) == false || validfirstName(form.firstName) == false || validlastName(form.lastName) == false || validaddress(form.address) == false || validcity(form.city) == false)  {
-        alert("veuillez corriger le(s) champs invalide(s)");
-      }
-      //if the basket is empty
-      else if (basket === null || basket == 0) {
+orderFormBtn.addEventListener('click', function (e) {
+   e.preventDefault();
+   //if an erreor occurs in any inputs
+   if (validEmail(form.email) == false || validfirstName(form.firstName) == false || validlastName(form.lastName) == false || validaddress(form.address) == false || validcity(form.city) == false) {
+      alert("veuillez corriger le(s) champs invalide(s)");
+   }
+   //if the basket is empty
+   else if (basket === null || basket == 0) {
 
-         //an alert appears to alarm the client
-         alert("votre panier est vide");
-         //confirmation of the redirection to the home page
-         if (confirm(("souhaitez-vous effectuer votre choix?")) == true);
-         window.location.href = "./index.html";
-         //add  areload here for the page
+      //an alert appears to alarm the client
+      alert("votre panier est vide");
+      //confirmation of the redirection to the home page
+      if (confirm(("souhaitez-vous effectuer votre choix?")) == true);
+      window.location.href = "./index.html";
+      //add  areload here for the page
 
-      }
-      //if the basket is not empty  and there's no errors in the form ,confirm your order
-      else { //(confirm("confirmez-vous votre commande?") == true) 
+   }
+   //if the basket is not empty  and there's no errors in the form ,confirm your order
+   else { //(confirm("confirmez-vous votre commande?") == true) 
 
-         // creating a new array from saved products,thefinal Basket
-         let product_id =[];
-         //pushing the id of every items from the local saved "basket" into the "final basket "
-         for(let i = 0; i< basket.length; i++){
-            product_id.push(basket[i].id);
-         }
-
-         // linking user's info and products as the new data to exploits
-
-         const  order = {
-            contact: {
-               firstName: form.firstName.value,
-               lastName: form.lastName.value,
-               address: form.address.value,
-               city: form.city.value,
-               email: form.email.value
-
-            },
-
-
-            products: product_id
-
-         };
-         console.log(order)
-         
-
-         //POST DATA TO THE BACK END
-         const options = {
-            method: 'POST',
-
-            headers: {
-               'Accept': 'application/json', 
-               'Content-Type': 'application/json' 
-            },
-
-            body: JSON.stringify(order),
-           
-         };
-
-         //fetching the url with the new parameters
-         fetch("http://localhost:3000/api/products/order", options)
-            .then(res => res.json())
-            .then(datas =>
-              
-               // redirecting the cleint to the confirmation page with the fetched orderId
-               window.location.href="confirmation.html?orderId="+ datas.orderId
-               
-           
-               
-            );
-
-        
-
-
-        
-
-
+      // creating a new array from saved products,thefinal Basket
+      let product_id = [];
+      //pushing the id of every items from the local saved "basket" into the "final basket "
+      for (let i = 0; i < basket.length; i++) {
+         product_id.push(basket[i].id);
       }
 
+      // linking user's info and products as the new data to exploits
+
+      const order = {
+         contact: {
+            firstName: form.firstName.value,
+            lastName: form.lastName.value,
+            address: form.address.value,
+            city: form.city.value,
+            email: form.email.value
+
+         },
+         products: product_id
+
+      };
+      console.log(order)
 
 
-      
-   })
-    
+      ////posting data to the back-end
+
+      //setting the options (method,headers and stringyfing the previous object)
+
+      const options = {
+         method: 'POST',
+
+         headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+         },
+
+         body: JSON.stringify(order),
+
+      };
+
+      //fetching the order url with the options
+      fetch("http://localhost:3000/api/products/order", options)
+         .then(res => res.json())
+         .then(datas =>
+
+            // redirecting the client to the confirmation page with the fetched orderId
+            window.location.href = "confirmation.html?orderId=" + datas.orderId
 
 
 
- 
+         );
+
+   }
+})
 
 
- 
 
-   
+
+
+
+
+
+
+
 
 
