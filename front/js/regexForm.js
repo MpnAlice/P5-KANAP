@@ -8,7 +8,6 @@ export const validEmail = function (inputEmail) {
       
        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-
    )
 
    let testEmail = emailRegExp.test(inputEmail.value);
@@ -139,10 +138,37 @@ export function regexForm() {
     let form = document.querySelector(".cart__order__form");
 
    
+    form.firstName.addEventListener('change', function(){
+        validfirstName(this)
+    })
+
+    
+    form.lastName.addEventListener('change', function(){
+        validlastName(this)
+    })
+    form.address.addEventListener('change', function(){
+        validaddress(this)
+    })
 
 
 
-    //
+    form.city.addEventListener('change', function(){
+        validcity(this)
+    })
+
+    form.email.addEventListener('change', function(){
+        validEmail(this)
+    })
+
+
+
+   
+
+   
+  
+   
+    
+  //
 
 }
 
