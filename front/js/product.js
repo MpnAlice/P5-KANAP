@@ -7,7 +7,7 @@ function fetchProductData(){
     fetch(productUrl)
     .then((res) => res.json())
     .then((data) => {
-       implementatingProductDetails(data);
+       implementingProductDetails(data);
     })
     /**
      * if the retrieval is not possible,an  alert will appear
@@ -19,11 +19,12 @@ function fetchProductData(){
 }
 //calling the function
 fetchProductData();
+
 /**
    implementing the product's elements in the DOM
  */
 
-function implementatingProductDetails (data)  {
+function implementingProductDetails (data)  {
     //making image
     const ProductImage = document.createElement('img');
     ProductImage.src = data.imageUrl;
@@ -64,34 +65,31 @@ function implementatingProductDetails (data)  {
 /**
  * ADDING PRODUCTS TO THE BASKET
  */ 
-
-
-
  //initializing the button element present in the html
  const addToCartBtn = document.querySelector('#addToCart')
  addToCartBtn.addEventListener("click", (event)  =>{
     event.preventDefault();
-    selectedOptions()
+    selectedOptions();
+
 
  }
  )
 
 
-
-
-
   // setting the options of the selection elements in a function
   function selectedOptions(){
-    const quantityChoice = (document.getElementById('quantity').value);
+    const quantity = document.getElementById('quantity')
+    const quantityChoice = parseInt(quantity.value)
     const colorChoice = document.getElementById('colors');
     const selectedColor = colorChoice.options[colorChoice.selectedIndex].value
     if(selectedColor == "" || quantityChoice == 0){
         alert("veuillez remplir tous les champs ")
     }
-    if( quantityChoice > 100 || quantityChoice < 1){
+    if( quantityChoice > quantity.max|| quantityChoice < quantity.min){
         alert("veuillez  choisir une quantité comprise entre 1 et 100")
 
     }
+    console.log( quantityChoice)
 
  }
 
