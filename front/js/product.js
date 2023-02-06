@@ -52,15 +52,57 @@ function implementatingProductDetails (data)  {
     //looping through color array to:
     colorsPalette.forEach(color => {
         //create "option" tag in the DOM
-        const colorOption = document.createElement("option");
-        colorSelection.appendChild(colorOption);
+        const options = document.createElement("option");
+        colorSelection.appendChild(options);
         // setting element(s) of the array as value
-        colorOption.value = color
+        options.value = color
         // setting element(s) of the array as html element
-        colorOption.innerHTML = color
+        options.innerHTML = color
     })
 
-
-
 }
+/**
+ * ADDING PRODUCTS TO THE BASKET
+ */ 
+
+
+
+ //initializing the button element present in the html
+ const addToCartBtn = document.querySelector('#addToCart')
+ addToCartBtn.addEventListener("click", (event)  =>{
+    event.preventDefault();
+    selectedOptions()
+
+ }
+ )
+
+
+
+
+
+  // setting the options of the selection elements in a function
+  function selectedOptions(){
+    const quantityChoice = (document.getElementById('quantity').value);
+    const colorChoice = document.getElementById('colors');
+    const selectedColor = colorChoice.options[colorChoice.selectedIndex].value
+    if(selectedColor == "" || quantityChoice == 0){
+        alert("veuillez remplir tous les champs ")
+    }
+    if( quantityChoice > 100 || quantityChoice < 1){
+        alert("veuillez  choisir une quantité comprise entre 1 et 100")
+
+    }
+
+ }
+
+
+
+ 
+
+
+
+
+
+
+
 
