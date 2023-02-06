@@ -8,6 +8,7 @@ function fetchProductData(){
     .then((res) => res.json())
     .then((data) => {
        implementingProductDetails(data);
+       addOnclick(data)
     })
     /**
      * if the retrieval is not possible,an  alert will appear
@@ -62,45 +63,53 @@ function implementingProductDetails (data)  {
     })
 
 }
+
 /**
  * ADDING PRODUCTS TO THE BASKET
  */ 
  //initializing the button element present in the html
- const addToCartBtn = document.querySelector('#addToCart')
- addToCartBtn.addEventListener("click", (event)  =>{
-    event.preventDefault();
-    selectedOptions();
+
+function addOnclick(data) {
+
+  
+    const addToCartBtn = document.querySelector('#addToCart')
+    addToCartBtn.addEventListener("click", (event) => {
+
+        // setting the options of the selection elements in a function
+        const quantity = document.getElementById('quantity')
+        const quantityChoice = parseInt(quantity.value)
+        const colorChoice = document.getElementById('colors');
+        const selectedColor = colorChoice.options[colorChoice.selectedIndex].value
+        if (selectedColor == "" || quantityChoice == 0) {
+            alert("veuillez remplir tous les champs ")
+        }
+        if (quantityChoice > quantity.max || quantityChoice < quantity.min) {
+            alert("veuillez  choisir une quantité comprise entre 1 et 100")
+
+        }
+    //
+
+        event.preventDefault();
+        let obj = {
+            id: data._id,
+            color : selectedColor,
+            quantity:quantityChoice
+        }
+
+        console.log(obj)
 
 
- }
- )
-
-
-  // setting the options of the selection elements in a function
-  function selectedOptions(){
-    const quantity = document.getElementById('quantity')
-    const quantityChoice = parseInt(quantity.value)
-    const colorChoice = document.getElementById('colors');
-    const selectedColor = colorChoice.options[colorChoice.selectedIndex].value
-    if(selectedColor == "" || quantityChoice == 0){
-        alert("veuillez remplir tous les champs ")
     }
-    if( quantityChoice > quantity.max|| quantityChoice < quantity.min){
-        alert("veuillez  choisir une quantité comprise entre 1 et 100")
+    )
 
-    }
-    console.log( quantityChoice)
+}
 
- }
+
+
+
+
+
 
 
 
  
-
-
-
-
-
-
-
-
