@@ -9,6 +9,7 @@ function fetchProductData(){
     .then((data) => {
        implementingProductDetails(data);
        addOnclick(data)
+    
     })
     /**
      * if the retrieval is not possible,an  alert will appear
@@ -71,38 +72,90 @@ function implementingProductDetails (data)  {
 
 function addOnclick(data) {
 
-  
+
+
     const addToCartBtn = document.querySelector('#addToCart')
     addToCartBtn.addEventListener("click", (event) => {
 
         // setting the options of the selection elements in a function
         const quantity = document.getElementById('quantity')
-        const quantityChoice = parseInt(quantity.value)
+        const selectedQuantiy = parseInt(quantity.value)
         const colorChoice = document.getElementById('colors');
         const selectedColor = colorChoice.options[colorChoice.selectedIndex].value
-        if (selectedColor == "" || quantityChoice == 0) {
-            alert("veuillez remplir tous les champs ")
-        }
-        if (quantityChoice > quantity.max || quantityChoice < quantity.min) {
-            alert("veuillez  choisir une quantité comprise entre 1 et 100")
-
-        }
-    //
-
+         //
         event.preventDefault();
+        //
+        
+        /**
+         * creating an array with the color,quantity and id
+         */
+
         let obj = {
-            id: data._id,
-            color : selectedColor,
-            quantity:quantityChoice
+            id : data._id,
+            color: selectedColor,
+            quantity:selectedQuantiy,
+
+        }
+      
+        //
+     
+        if (selectedColor == "") {
+            alert("Merci d'indiquer la couleur choisie pour votre produit ")
         }
 
-        console.log(obj)
+        if (selectedQuantiy > quantity.max || selectedQuantiy< quantity.min) {
+            alert("veuillez  choisir une quantité comprise entre 1 et 100 pour votre produit")
 
+        }
+        
+        else (
+            addToBasket(obj)
+           
+        )
+       
+       
 
-    }
-    )
+    });
 
 }
+
+
+function addToBasket(obj) {
+    let basket = JSON.parse(localStorage.getItem("localproduct")) || [];
+
+    //
+    let foundProduct = basket.find((item) => item.id === obj.id && item.color == obj.color)
+
+    if (foundProduct) {
+
+        foundProduct.quantity += obj.quantity;
+        basket = basket.map((item) => {
+            if (obj.id == item.id && obj.color == item.color) {
+                return foundProduct
+            }
+
+            return item;
+        });
+    } else {
+        basket.push(obj);
+
+    }
+    localStorage.setItem('localproduct', JSON.stringify(basket))
+    console.log(basket)
+
+}
+
+        
+        
+
+    
+//
+
+
+
+
+
+
 
 
 
