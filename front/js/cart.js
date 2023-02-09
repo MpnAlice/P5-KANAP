@@ -1,50 +1,80 @@
-import { apiUrl, productUrl,paramId, createElement } from "./utils.js";
+import { apiUrl, productUrl, id, createElement } from "./utils.js";
 import { regexForm, validEmail, validaddress, validcity, validfirstName, validlastName } from "./regexForm.js";
+/**
+ * retrieving the product(s) in basket
+ */
 let basket = JSON.parse(localStorage.getItem("localproduct")) || [];
-console.log(basket)
 
-let products = null;
+
+/**
+ * retrieving the product's data from the API
+ */
+
+let products = ""
 
 const fetchProducts = async () => {
    if (products) {
       return products
    }
+
+   //the products are elements of  api
    try {
       const response = await fetch(apiUrl);
       products = await response.json();
       return products
    }
+
+   //if there's an error in retrieving the datas,an alert will appear
    catch (error) {
       alert("une erreur est survenue lors du chargment de vos produits")
 
    }
 }
 
-//
-let localProducts = async() =>{
+/**
+ * retrieving the products infos form the first retrieves 
+ */
+
+let localProducts = async () => {
    const awaitBasket = await fetchProducts()
    const localBasket = basket;
-   return localBasket.map((item) =>{
-      const foundElements= awaitBasket.find((element) => element._id == item.id);
-      return{
+
+   console.log(awaitBasket)
+
+   //creating a new array which contains the products  price(s) from the api
+   //if the element in the local basket have the same id as the element found in the response from the fetch 
+
+   return localBasket.map((item) => {
+      const foundElements = awaitBasket.find((element) => element._id == item.id);
+
+      // a new array is array is return elements from the localbasket and api,therefore ,we can have the price of the products
+      return {
          ...item,
-   
+
          ...foundElements,
       }
-      
+
    })
- 
+
 }
-//CREATING ELEMENTS IN CART 
+
+
+/**
+ * CREATING ELEMENTS IN CART 
+ */
+// products in storage are in arrays made of a fusion of local basket and api's element 
+//only if they share the same id
 
 let productsInStorage = await localProducts()
-for (let product of productsInStorage){
-    implementingProducts(product)
-   
-}
-console.log(productsInStorage)
+for (let product of productsInStorage) {
 
-//
+   //calling the function to add elements in the DOM for each product
+   implementingProducts(product)
+
+}
+
+
+// CREATING A FUNCTION TO IMPLEMENT EACH ELEMENT TO THE CART
 
 function implementingProducts(product) {
 
@@ -56,8 +86,6 @@ function implementingProducts(product) {
    article.dataset.id = `${product._id}`
    article.dataset.color = `${product.color}`
    article.setAttribute("data-color", ` ${product.color}`);
-   console.log(article)
-
    cart.appendChild(article)
 
    // img
@@ -78,7 +106,7 @@ function implementingProducts(product) {
    productContent.appendChild(description);
    // 
    let h2 = createElement("h2");
-   h2.innerText =product.name;
+   h2.innerText = product.name;
    let p1 = createElement("p");
    p1.innerHTML = product.color;
    let p2 = createElement("p")
@@ -88,7 +116,7 @@ function implementingProducts(product) {
    let descriptionElement = [h2, p1, p2]
    descriptionElement.forEach(element => {
       description.appendChild(element)
-      
+
    });
 
    //settings
@@ -114,7 +142,7 @@ function implementingProducts(product) {
    quantityInput.setAttribute("max", "100");
    quantityInput.setAttribute("value", `${product.quantity}`);
    quantitySettings.appendChild(quantityInput);
-   changeQuantity(quantityInput)
+
 
    //DYNAMICALLY CHANGING THE QUANTITY WITH THE INPUT ON CART
 
@@ -130,67 +158,82 @@ function implementingProducts(product) {
    deleteSettings.appendChild(deletebtn);
    removeItems(deletebtn)
    //
-  
+
 
 
 }
 
-   //////////MODIFICATION OF THE TOTALS  BY CHANGING QUANITY OR REMOVING ITEMS
+//////////MODIFICATION OF THE TOTALS  BY CHANGING QUANITY OR REMOVING ITEMS
 
-   /////////remove items with the delete button
- function removeItems(){
-   var removeBtn = document.getElementsByClassName('deleteItem');
-    
-   for (var i = 0; i < removeBtn.length; i++) {
-      var button = removeBtn[i]
-      button.addEventListener('click', function (event) {
-         var buttonCliked = event.target
-         if (confirm("voulez-vous supprimer cet article ?") == true) {
-            //getting on click de dataset of the removed article
-            let removediD = buttonCliked.closest('article').dataset.id;
-            let removedColor = buttonCliked.closest('article').dataset.color;
-         
-            //setting the data of the new filtered basket
-            basket = basket.filter(e => e.id !== removediD && e.color !== removedColor)
-            localStorage.setItem("localproduct", JSON.stringify(basket));
-            //
-            console.log(basket)
+/////////A FUNCTION TO REMOVE AND ITEM FORM THE CART 
+function removeItems() {
+
+   //initializing the dletete button
+   var removeBtn = document.querySelectorAll(".deleteItem");
+   removeBtn.forEach((removeBtn) => {
+      removeBtn.addEventListener("click", (event) => {
+
+         event.preventDefault()
+
+         let deletedArticle = removeBtn.closest('article')
+
+         //filtering the remainings elements with the data set ,the id and color should be different
+         basket = basket.filter(e => e.id !== deletedArticle.dataset.id && e.color !== deletedArticle.dataset.id);
+         localStorage.setItem("localproduct", JSON.stringify(basket));
+
+         alert("cet article sera supprimé")
+         //deleting  items from the node
+         if (deletedArticle.parentNode) {
+            deletedArticle.parentNode.removeChild(deletedArticle)
+            console.log(deletedArticle)
+
+         }
+         else {
+            if  (basket =[] || basket == undefined){
+               alert('votre panier est vide')
+            }
          }
 
-         buttonCliked.closest('article').remove();
+
          //reloading after deleting the item
          window.location.reload()
 
       })
 
-  
-   }
+   })
 
- } 
+}
 
- function changeQuantity() {
-   /////////change quantity with the input
-  const quantitySelector = document.getElementsByClassName("itemQuantity");
+
+
+//////////A FUNCTION TO CHANGE THE QUANTITY OF AN ITEM
+
+function changeQuantity() {
+
+   const quantitySelector = document.getElementsByClassName("itemQuantity");
 
    for (var i = 0; i < quantitySelector.length; i++) {
       var input = quantitySelector[i];
-      let item = basket[i];
+      let localproduct = basket[i];
+
       input.addEventListener("change", (e) => {
          e.preventDefault;
          //
-         let newValue = input.value
+         let newValue = Number(input.value)
 
          //the value is equal under 0 or is not a number
 
-         if (isNaN(newValue) || newValue <= 0) {
-            alert("veuillez renseigner une quantité correcte!")
+         if (isNaN(newValue) || newValue < 1 || newValue > 100) {
+            alert("attention,la quantité de cet article n'est pas appropriée,nous vous invitons à la modifier")
+
          }
 
          // the new value is != from 0 //correct the bug here
-         if (newValue <= 100) {
-            item.quantity = newValue
+         if (newValue >= 1 || newValue <= 100) {
+            localproduct.quantity = newValue
             alert("la quantité de cet article a bien été modifiée")
          }
+
          localStorage.setItem("localproduct", JSON.stringify(basket))
 
          //reloading after adding the item
@@ -201,10 +244,12 @@ function implementingProducts(product) {
       )
    }
 }
+changeQuantity()
 
+//////////A FUNCTION WHICH UPDATES THE QUANTITY  AND THE PRICE
 
-function quantityAndprice() {
-   ////////////total quantity
+function quantityAndpriceUpdate() {
+
    let cartQuantity = document.getElementById("totalQuantity")
    let itemsQuantity = document.querySelectorAll(".itemQuantity");
    let totalQuantity = 0;
@@ -223,8 +268,8 @@ function quantityAndprice() {
 
    //let productdata = []
    for (let i = 0; i < basket.length; i++) {
-      let item = basket[i];
-      let basketElements = productsInStorage.find((e) => e._id == item.id);
+      let localproduct = basket[i];
+      let basketElements = productsInStorage.find((e) => e._id == localproduct.id);
       totalPrice += itemsQuantity[i].value * basketElements.price
    }
 
@@ -233,17 +278,29 @@ function quantityAndprice() {
 
 }
 
-quantityAndprice()
+quantityAndpriceUpdate()
 
+
+/**
+ * REGEX FOR THE FORM ARE IN FILE 
+ */
 
 regexForm();
 
 
+/************************************************************************************************
+ *                                                                                               
+ *     
+ *                                         ORDER 
+ *                               
+ * 
+ *
+ ************************************************************************************************/
 
-//////////////ORDER
 
+//INITIALIZING the html elemment of the form
 let form = document.querySelector(".cart__order__form");
-
+//INITIALIZING the html element for the order action (button)
 let orderFormBtn = document.querySelector('#order');
 
 orderFormBtn.addEventListener('click', function (e) {
@@ -264,9 +321,9 @@ orderFormBtn.addEventListener('click', function (e) {
 
    }
    //if the basket is not empty  and there's no errors in the form ,confirm your order
-   else { //(confirm("confirmez-vous votre commande?") == true) 
+   else {
 
-      // creating a new array from saved products,thefinal Basket
+      // creating a new array from saved products,the final Basket
       let product_id = [];
       //pushing the id of every items from the local saved "basket" into the "final basket "
       for (let i = 0; i < basket.length; i++) {
@@ -289,36 +346,53 @@ orderFormBtn.addEventListener('click', function (e) {
       };
       console.log(order)
 
-
-      ////posting data to the back-end
-
-      //setting the options (method,headers and stringyfing the previous object)
-
-      const options = {
-         method: 'POST',
-
-         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-         },
-
-         body: JSON.stringify(order),
-
-      };
-
-      //fetching the order url with the options
-      fetch("http://localhost:3000/api/products/order", options)
-         .then(res => res.json())
-         .then(datas =>
-
-            // redirecting the client to the confirmation page with the fetched orderId
-            window.location.href = "confirmation.html?orderId=" + datas.orderId
+      if ((confirm("confirmez-vous votre commande?") == true)) {
 
 
 
-         );
+         ////posting data to the back-end
+
+         //setting the options (method,headers and stringyfing the previous object)
+
+         const options = {
+            method: 'POST',
+
+            headers: {
+               'Accept': 'application/json',
+               'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify(order),
+
+         };
+
+         //fetching the order url with the options
+         fetch("http://localhost:3000/api/products/order", options)
+            .then(res => res.json())
+            .then(datas =>
+
+               // redirecting the client to the confirmation page with the fetched orderId
+               window.location.href = "confirmation.html?orderId=" + datas.orderId
+
+
+
+            );
+
+      }
+
+      else {
+
+         (confirm("souhaitez-vous redirigé vers la page d'accueil?") == true)
+
+         window.location.href = "./index.html";
+
+      }
+
+
 
    }
+
+
 })
 
 
