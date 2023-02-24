@@ -163,13 +163,14 @@ const getCart = async () => {
       deletebtn.innerHTML = `Supprimer `;
       deleteSettings.appendChild(deletebtn);
     }
-
+    //Calling the functions
     deleteItem();
     getTotalQuantity();
     QuantityUpdate();
   }
 };
 
+//calling the functions
 getCart();
 
 /**
@@ -227,10 +228,9 @@ const QuantityUpdate = () => {
       /////**if the value is superior to 100
       if (modifiedValue > 100) {
         basket[i].quantity = modifiedValue;
-        localStorage.setItem("products", JSON.stringify(basket));
         window.location.reload();
         alert(
-          "désolé ,la quantité de tout article ne doit pas excéder 100,veuillez modifier la quantité de votre article"
+          "désolé ,la quantité de votre article ne sera pas modifiée car la valeur indiquée est supérieure à 100"
         );
         ////if the value is under 0
       }
@@ -239,7 +239,7 @@ const QuantityUpdate = () => {
         basket[i].quantity = modifiedValue;
         window.location.reload();
         alert(
-          "désolé ,la quantité de tout article ne doit pas être en dessous de 0"
+          "désolé ,la quantité de votre article ne sera pas modifiée car la valeur indiquée est inférieure ou égale à zéro"
         );
       }
     });
@@ -301,14 +301,13 @@ let orderFormBtn = document.querySelector("#order");
 orderFormBtn.addEventListener("click", function (e) {
   let basket = JSON.parse(localStorage.getItem("products")) || [];
   e.preventDefault();
-
+  ///const to handle the regex
   const regexFalse =
     validEmail(form.email) == false ||
     validfirstName(form.firstName) == false ||
     validlastName(form.lastName) == false ||
     validaddress(form.address) == false ||
     validcity(form.city) == false;
-
   const allFalse =
     validEmail(form.email) == false &&
     validfirstName(form.firstName) == false &&
@@ -367,10 +366,30 @@ orderFormBtn.addEventListener("click", function (e) {
             (window.location.href =
               "confirmation.html?orderId=" + datas.orderId)
         );
-    } else {
-      confirm("souhaitez-vous redirigé vers la page d'accueil?") == true;
 
-      window.location.href = "./index.html";
+      ///clearing the local storage after the order is sent!
+      localStorage.clear();
+    }
+
+    /// ORDER ANNULATION
+    else {
+      // IF THE USER DOESN'T WAN TO PURSUIT THE ORDER
+
+      if (confirm("souhaitez-vous annuler votre commande?") == true) {
+        ///AN ALERT INFORMING THE USER THAT THE BASKET WILL BE DELETED
+        alert("attention votre panier sera supprimé");
+
+        // CLEARING THE STORAGE
+        localStorage.clear();
+        ///
+        window.location.href = "./index.html";
+      } else {
+        // STAYING ON THE PAGE
+
+        alert("vous êtes toujours sur la page panier");
+
+        window.location.load();
+      }
     }
   }
 });

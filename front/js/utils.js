@@ -1,25 +1,22 @@
 /**
- * VARIABLES
+ * API's url
  */
 
-//api's url
-export const apiUrl = 'http://localhost:3000/api/products';
-//extracting the id of the product from the end of the url's page
-export const queryString_url = new URLSearchParams(window.location.search)
-// easy method to separate the id from the string
-export const id = queryString_url.get("id")
-//products's url
-export const productUrl = (`http://localhost:3000/api/products/${id}`);
+export const apiUrl = "http://localhost:3000/api/products";
 
-//
-export const  items= document.querySelectorAll("items")
+export const items = document.querySelectorAll("items");
+
+// setting the options of the selection elements in a function
+export const quantity = document.getElementById("quantity");
+
+export const colors = document.getElementById("colors");
 
 /**
  * FUNCTIONS
  */
 
-//function to create elements 
+//function to create elements
 export function createElement(type) {
-    var element = document.createElement(type)
-    return element
+  var element = document.createElement(type);
+  return element;
 }
